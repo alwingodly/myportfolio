@@ -1,0 +1,226 @@
+.about {
+    background-color: var(--white);
+    padding: 80px 0;
+  }
+  
+  .about .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .stars span {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle linear infinite;
+  }
+  
+  @keyframes twinkle {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Shooting Stars */
+  .shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: shoot 3s linear infinite;
+  }
+  
+  @keyframes shoot {
+    0% {
+      transform: translateX(-100%) translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%) translateY(100%);
+      opacity: 0;
+    }
+  }
+  .about h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--primary-color);
+    position: relative;
+  }
+  
+  .about h2::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .about-content {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .img-container {
+    width: 350px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+  }
+  
+  .img-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background-color: #ddd;
+  }
+  
+  .about-text {
+    flex: 1;
+  }
+  
+  .about-text p {
+    color: var(--light-text);
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+  
+  .about-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+  }
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .shape {
+    width: 400px;
+    height: 600px;
+    background-color: var(--primary-color);
+    border-radius: 5%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    background-image: url('../../assets/profile.jpg'); 
+    background-size: cover;
+    background-position: center;
+  }
+  .detail h4 {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+  }
+  
+  .detail p {
+    margin-bottom: 0;
+    color: var(--text-color);
+  }
+  
+  .about-cta {
+    margin-top: 30px;
+  }
+  
+  .about-cta .btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  
+  .about-cta .btn:hover {
+    background-color: #333;
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+  }
+  
+  @media (max-width: 992px) {
+    .about-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .about-details {
+      text-align: left;
+      max-width: 500px;
+      margin: 30px auto;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .about-details {
+      grid-template-columns: 1fr;
+    }
+  
+    .img-container {
+      width: 100%;
+      height: 300px;
+    }
+  }
+
+@media screen and (max-width: 1024px) {
+  .shape {
+    width: 300px;
+    height: 450px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .shape {
+    width: 250px;
+    height: 375px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .shape {
+    width: 200px;
+    height: 300px;
+  }
+}
