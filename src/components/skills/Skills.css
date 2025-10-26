@@ -1,6 +1,6 @@
 /* Skills Section - Dark Black & White Modern UI/UX */
 .skills {
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  background: var(--white);
   padding: 100px 0;
   position: relative;
   overflow: hidden;
@@ -14,8 +14,7 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+    var(--white);
   pointer-events: none;
 }
 
