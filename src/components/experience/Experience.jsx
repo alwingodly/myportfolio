@@ -8,12 +8,14 @@ const Experience = () => {
       company: "Ospyn Technologies Limited",
       period: "October, 2023 – Present",
       responsibilities: [
-        "KYC Application for IOB: Troubleshoot and resolve technical issues to enhance application performance and user experience. Ensured smooth functionality and system stability as part of the development process using React.js.",
-        "Form Submission Project for Kerala Genomic Data Center: Independently handled frontend development using React.js, Tailwind CSS, and React Hook Form for efficient form management. Collaborated closely with the backend team for API integration and data handling. Ensured timely delivery and successfully deployed the project into production.",
-        "IOB CKYC Application: Rebuilt a complex CKYC application from an existing system, redesigning the project architecture with new paths and functionalities. Integrated QR scanner to resolve discrepancies efficiently.",
-        "Ospyn Docs: Collaborated with frontend and backend teams to build the complete application. Applied SOLID principles for code maintainability and scalability. Developed navigation, authentication, and folder management features. Designed UI/UX with Figma and implemented features like listing, breadcrumb navigation, and API integrations.",
-        "DDFS: Developed UI based on Figma designs and contributed to performance optimizations. Collaborated on code improvements, applying SOLID principles to enhance scalability and maintainability.",
-        "Office Note: Created the viewer component, comment section, and key UI elements for seamless user interactions."
+        "KYC Web Application: Troubleshot and resolved technical issues to enhance performance and user experience using React.js, ensuring smooth functionality and system stability.",
+        "CKYC Web Application: Rebuilt a complex system, redesigning architecture with new paths and functionalities; integrated QR scanner to streamline verification.",
+        "Genomic Data Management Web Application: Independently handled frontend development using React.js, Tailwind CSS, and React Hook Form; collaborated with backend teams for API integration and successful deployment.",
+        "Document Management Application 1: Developed full application with navigation, authentication, folder management, listing, breadcrumb navigation, and API integrations; applied SOLID principles for maintainability.",
+        "Document Management Application 2: Developed UI based on Figma designs; optimized performance and code quality using SOLID principles.",
+        "Annotation Viewer Module: Independently built an annotation viewer using Jetpack Compose and integrated with React Native; implemented drawing, zooming, panning, swipe navigation, and created two functional variants.",
+        "Office Note Module: Created viewer components, comment sections, and key UI elements for seamless user interactions.",
+        "Banking Frontend Contribution: Contributed briefly to frontend integration and debugging to support secure and efficient application functionality."
       ]
     },
     {
@@ -26,12 +28,12 @@ const Experience = () => {
       ]
     }
   ];
-  
+
   return (
     <section id="experience" className="experience">
       <div className="container">
         <h2>Work Experience</h2>
-        
+
         <div className="timeline-exp">
           {experiences.map((exp, index) => (
             <div key={index} className={`timeline-item-exp ${index % 2 === 0 ? 'left' : 'right'}`}>

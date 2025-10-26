@@ -13,7 +13,8 @@ const Skills = () => {
         { name: "JavaScript", level: 88 },
         { name: "Bootstrap", level: 85 },
         { name: "Tailwind CSS", level: 82 },
-        { name: "Next.js", level: 75 }
+        { name: "Next.js", level: 75 },
+        { name: "Jetpack Compose", level: 75 },
       ]
     },
     {
@@ -35,15 +36,15 @@ const Skills = () => {
         { name: "VSCode", level: 95 }
       ]
     },
-    {
-      category: "Development Practices",
-      skills: [
-        { name: "SOLID Principles", level: 80 },
-        { name: "Server-Side Rendering", level: 75 },
-        { name: "Client-Side Rendering", level: 85 },
-        { name: "NX Packaging", level: 70 }
-      ]
-    }
+    // {
+    //   category: "Development Practices",
+    //   skills: [
+    //     { name: "SOLID Principles", level: 80 },
+    //     { name: "Server-Side Rendering", level: 75 },
+    //     { name: "Client-Side Rendering", level: 85 },
+    //     { name: "NX Packaging", level: 70 }
+    //   ]
+    // }
   ];
 
   return (
