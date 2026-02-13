@@ -103,10 +103,6 @@ const Contact = () => {
         >
           <span className="section-label">Contact</span>
           <h2 className="section-title">Get in Touch</h2>
-          <p className="section-subtitle">
-            Have a project in mind or want to discuss opportunities? 
-            I'd love to hear from you.
-          </p>
         </div>
 
         <div className="contact-grid">
