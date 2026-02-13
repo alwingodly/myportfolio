@@ -8,14 +8,23 @@ const Hero = () => {
   const animationRef = useRef(null);
   const particlesRef = useRef([]);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const isMobileRef = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    
+    // Check if mobile device
+    isMobileRef.current = window.innerWidth < 768;
+    
+    const setCanvasSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    
+    setCanvasSize();
 
     // Particle class
     class Particle {
@@ -35,15 +44,17 @@ const Hero = () => {
         if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
         if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
 
-        // Mouse interaction
-        const dx = mouseRef.current.x - this.x;
-        const dy = mouseRef.current.y - this.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 150) {
-          const angle = Math.atan2(dy, dx);
-          this.vx -= Math.cos(angle) * 0.02;
-          this.vy -= Math.sin(angle) * 0.02;
+        // Mouse/touch interaction - only on desktop for performance
+        if (!isMobileRef.current) {
+          const dx = mouseRef.current.x - this.x;
+          const dy = mouseRef.current.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 150) {
+            const angle = Math.atan2(dy, dx);
+            this.vx -= Math.cos(angle) * 0.02;
+            this.vy -= Math.sin(angle) * 0.02;
+          }
         }
 
         // Speed limit
@@ -62,8 +73,9 @@ const Hero = () => {
       }
     }
 
-    // Create particles
-    const particleCount = window.innerWidth < 768 ? 30 : 60;
+    // Create particles - fewer on mobile
+    const particleCount = window.innerWidth < 480 ? 20 : window.innerWidth < 768 ? 30 : 60;
+    particlesRef.current = [];
     for (let i = 0; i < particleCount; i++) {
       particlesRef.current.push(new Particle());
     }
@@ -78,16 +90,17 @@ const Hero = () => {
         particle.draw();
       });
 
-      // Draw connections
+      // Draw connections - reduce on mobile for performance
+      const connectionDistance = isMobileRef.current ? 120 : 150;
       for (let i = 0; i < particlesRef.current.length; i++) {
         for (let j = i + 1; j < particlesRef.current.length; j++) {
           const dx = particlesRef.current[i].x - particlesRef.current[j].x;
           const dy = particlesRef.current[i].y - particlesRef.current[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < connectionDistance) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(217, 119, 87, ${0.3 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(217, 119, 87, ${0.3 * (1 - distance / connectionDistance)})`;
             ctx.lineWidth = 1;
             ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
             ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
@@ -101,19 +114,40 @@ const Hero = () => {
 
     animate();
 
-    // Mouse move handler
+    // Mouse/touch move handler
     const handleMouseMove = (e) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
+      if (!isMobileRef.current) {
+        mouseRef.current.x = e.clientX;
+        mouseRef.current.y = e.clientY;
+      }
     };
 
-    // Resize handler
+    const handleTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        mouseRef.current.x = e.touches[0].clientX;
+        mouseRef.current.y = e.touches[0].clientY;
+      }
+    };
+
+    // Resize handler with debouncing
+    let resizeTimeout;
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        isMobileRef.current = window.innerWidth < 768;
+        setCanvasSize();
+        
+        // Recreate particles on resize
+        const newParticleCount = window.innerWidth < 480 ? 20 : window.innerWidth < 768 ? 30 : 60;
+        particlesRef.current = [];
+        for (let i = 0; i < newParticleCount; i++) {
+          particlesRef.current.push(new Particle());
+        }
+      }, 250);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('resize', handleResize);
 
     // Cleanup
@@ -121,7 +155,9 @@ const Hero = () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      clearTimeout(resizeTimeout);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -158,7 +194,7 @@ const Hero = () => {
               {/* <a href="#projects" className="btn btn-outline">View My Projects</a> */}
             </div>
             
-            <div className="social-links">
+            <div className="social-links-hero">
               <a 
                 href="https://github.com/alwingodly" 
                 target="_blank" 
