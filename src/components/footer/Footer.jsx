@@ -20,25 +20,47 @@ const Footer = () => {
                 <span>Alwin Godly Mathew</span>
               </a>
             </div>
-            <p>MERN Stack Developer specializing in building scalable, user-friendly web and mobile applications.</p>
+            <p>
+              MERN Stack Developer specializing in building scalable, 
+              user-friendly web and mobile applications.
+            </p>
           </div>
 
           <div className="footer-social">
-            <a href="https://github.com/alwingodly" target="_blank" rel="noopener noreferrer">
+            <a 
+              href="https://github.com/alwingodly" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label="GitHub Profile"
+            >
               <FaGithub />
             </a>
-            <a href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217" target="_blank" rel="noopener noreferrer">
+            <a 
+              href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              aria-label="LinkedIn Profile"
+            >
               <FaLinkedin />
             </a>
-            <a href="mailto:alwingodlymathew@gmail.com">
+            <a 
+              href="mailto:alwingodlymathew@gmail.com"
+              aria-label="Send Email"
+            >
               <FaEnvelope />
             </a>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Alwin Godly Mathew. All Rights Reserved.</p>
-          <button className="scroll-to-top" onClick={scrollToTop}>
+          <p>
+            &copy; {new Date().getFullYear()} Alwin Godly Mathew. All Rights Reserved.
+          </p>
+          <button 
+            className="scroll-to-top" 
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+          >
             <FaArrowUp />
           </button>
         </div>

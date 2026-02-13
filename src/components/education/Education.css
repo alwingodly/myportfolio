@@ -1,189 +1,428 @@
+/* ============================================
+   EDUCATION SECTION - Claude Warm Theme
+   Dynamic & Visually Interesting
+   ============================================ */
+
 .education {
-    background-color: var(--white);
-    padding: 80px 0;
+  background: linear-gradient(135deg, var(--claude-background) 0%, #F8F5EE 100%);
+  padding: var(--space-20) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle background pattern */
+.education::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(217, 119, 87, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(230, 152, 114, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.education .container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   SECTION HEADER
+   ============================================ */
+
+.education h2 {
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: var(--space-16);
+  color: var(--claude-text-dark);
+  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.education h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--claude-primary), var(--claude-accent-light));
+  border-radius: 2px;
+}
+
+/* Section subtitle with icon */
+.section-subtitle {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-8);
+  color: var(--claude-text-dark);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.section-subtitle::before {
+  content: '🎓';
+  font-size: var(--text-2xl);
+  display: inline-block;
+}
+
+.training-section .section-subtitle::before {
+  content: '💼';
+}
+
+/* ============================================
+   EDUCATION GRID
+   ============================================ */
+
+.education-timeline {
+  margin-bottom: var(--space-16);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+  padding: var(--space-4) 0;
+}
+
+/* Education card with gradient border */
+.timeline-item {
+  position: relative;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .education .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
+}
+
+.timeline-content {
+  background-color: var(--claude-surface);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--claude-border);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Gradient accent bar on top */
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--claude-primary), var(--claude-accent-light));
+}
+
+.timeline-content:hover {
+  border-color: var(--claude-primary);
+  box-shadow: 0 8px 24px rgba(217, 119, 87, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Year badge with icon */
+.timeline-year {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--claude-primary);
+  background: linear-gradient(135deg, var(--claude-accent-bg), #FEF8F1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  border: 1px solid rgba(217, 119, 87, 0.2);
+}
+
+.timeline-year::before {
+  content: '📅';
+  font-size: var(--text-sm);
+}
+
+/* Degree with emphasis */
+.timeline-content h4 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+  color: var(--claude-text-dark);
+  line-height: 1.3;
+}
+
+.timeline-content h5 {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-3);
+  color: var(--claude-primary);
+  line-height: 1.4;
+}
+
+.timeline-content p {
+  color: var(--claude-text-medium);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-2);
+  line-height: 1.5;
+}
+
+/* Score badge */
+.education-score {
+  font-weight: 600;
+  color: var(--claude-primary);
+  font-size: var(--text-sm);
+  background-color: var(--claude-accent-bg);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin-top: auto;
+  border: 1px solid rgba(217, 119, 87, 0.2);
+}
+
+.education-score::before {
+  content: '⭐ ';
+}
+
+/* ============================================
+   TRAINING SECTION - Card Style
+   ============================================ */
+
+.training-section {
+  margin-top: var(--space-16);
+}
+
+.training-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.training-card {
+  background: linear-gradient(135deg, var(--claude-surface) 0%, #FDFCFB 100%);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--claude-border);
+  transition: all var(--transition-base);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: 0.4s;
+}
+
+/* Decorative corner accent */
+.training-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at top right, rgba(217, 119, 87, 0.1), transparent);
+  border-radius: 0 var(--radius-lg) 0 100%;
+}
+
+.training-card:hover {
+  border-color: var(--claude-primary);
+  box-shadow: 0 8px 24px rgba(217, 119, 87, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Period badge */
+.training-period {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--claude-primary);
+  background: linear-gradient(135deg, var(--claude-accent-bg), #FEF8F1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+  border: 1px solid rgba(217, 119, 87, 0.2);
+}
+
+.training-period::before {
+  content: '🚀';
+  font-size: var(--text-sm);
+}
+
+.training-content h4 {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+  color: var(--claude-text-dark);
+  line-height: 1.3;
+}
+
+/* Enhanced list styling */
+.training-content ul {
+  margin-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.training-content ul li {
+  color: var(--claude-text-medium);
+  line-height: 1.65;
+  font-size: var(--text-sm);
+  padding-left: var(--space-6);
+  position: relative;
+}
+
+.training-content ul li::before {
+  content: '▸';
+  position: absolute;
+  left: var(--space-2);
+  color: var(--claude-primary);
+  font-weight: 700;
+  font-size: var(--text-base);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+  .education {
+    padding: var(--space-16) 0;
+  }
+
   .education h2 {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 60px;
-    color: var(--primary-color);
-    position: relative;
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-12);
   }
-  
-  .education h2::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 4px;
-    background-color: var(--primary-color);
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
+
   .section-subtitle {
-    font-size: 24px;
-    margin-bottom: 30px;
-    color: var(--primary-color);
-    position: relative;
-    padding-bottom: 10px;
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-6);
   }
-  
-  .section-subtitle::after {
-    content: '';
-    position: absolute;
-    width: 50px;
-    height: 3px;
-    background-color: var(--primary-color);
-    left: 0;
-    bottom: 0;
-  }
-  
+
   .timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 0;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
   }
-  
-  .timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    background-color: var(--primary-color);
-    transform: translateX(-50%);
-  }
-  
-  .timeline-item {
-    position: relative;
-    width: 50%;
-    padding: 20px;
-  }
-  
-  .timeline-item:nth-child(odd) {
-    left: -2%;
-    text-align: right;
-  }
-  
-  .timeline-item:nth-child(even) {
-    left: 48%;
-    text-align: left;
-  }
-  
-  .timeline-year {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-  }
-  
-  .timeline-content {
-    background-color: var(--secondary-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    transition: var(--transition);
-  }
-  
-  .timeline-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-  }
-  
-  .timeline-content h4 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: var(--text-color);
-  }
-  
-  .timeline-content h5 {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    color: var(--light-text);
-  }
-  
-  .timeline-content p {
-    color: var(--light-text);
-    margin-bottom: 5px;
-  }
-  
-  .education-score {
-    font-weight: 500;
-    color: var(--primary-color);
-  }
-  
-  .training-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-  }
-  
+
+  .timeline-content,
   .training-card {
-    background-color: var(--secondary-color);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
-    transition: var(--transition);
+    padding: var(--space-5);
   }
-  
-  .training-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+
+  .training-section {
+    margin-top: var(--space-12);
   }
-  
-  .training-period {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin-bottom: 10px;
+}
+
+@media (max-width: 480px) {
+  .education {
+    padding: var(--space-12) 0;
   }
-  
+
+  .education .container {
+    padding: 0 var(--space-4);
+  }
+
+  .education h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-10);
+  }
+
+  .section-subtitle {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-5);
+  }
+
+  .section-subtitle::before {
+    font-size: var(--text-xl);
+  }
+
+  .timeline-content,
+  .training-card {
+    padding: var(--space-4);
+  }
+
+  .timeline-content h4,
   .training-content h4 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: var(--text-color);
+    font-size: var(--text-base);
   }
-  
-  .training-content ul {
-    margin-left: 20px;
+
+  .timeline-content h5 {
+    font-size: var(--text-xs);
   }
-  
+
+  .timeline-content p,
   .training-content ul li {
-    margin-bottom: 8px;
-    color: var(--light-text);
-    line-height: 1.6;
+    font-size: var(--text-xs);
   }
-  
-  @media screen and (max-width: 768px) {
-    .timeline::before {
-      left: 20px;
-    }
-  
-    .timeline-item {
-      width: 100%;
-      padding-left: 50px;
-      padding-right: 0;
-      text-align: left !important;
-    }
-  
-    .timeline-item:nth-child(even) {
-      left: 0;
-    }
-  
-    .training-cards {
-      grid-template-columns: 1fr;
-    }
+
+  .training-content ul li {
+    padding-left: var(--space-5);
   }
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .education {
+    background: linear-gradient(135deg, var(--claude-background) 0%, #1A1816 100%);
+  }
+
+  .timeline-content,
+  .training-card {
+    background: var(--claude-surface);
+  }
+
+  .training-card {
+    background: linear-gradient(135deg, var(--claude-surface) 0%, #1F1D1B 100%);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-item,
+  .training-card {
+    opacity: 1;
+    animation: none;
+  }
+
+  .timeline-content,
+  .training-card {
+    transition: none;
+  }
+}

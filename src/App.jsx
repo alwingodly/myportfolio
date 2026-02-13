@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import Header from './components/header/Header';
@@ -19,8 +18,8 @@ function App() {
         <Hero />
         <About />
         <Experience />
-        {/* <Projects /> */}
         <Skills />
+        {/* <Projects /> */}
         <Education />
         <Contact />
       </main>
@@ -30,4 +29,3 @@ function App() {
 }
 
 export default App;
-

@@ -1,100 +1,242 @@
+/* ============================================
+   FOOTER - Claude Warm Theme
+   Clean, Minimal Footer Design
+   ============================================ */
+
 .footer {
-  background-color: var(--white);
-  color: var(--text-color);
-  padding: 40px 0 20px;
+  background-color: var(--claude-surface);
+  border-top: 1px solid var(--claude-border);
+  color: var(--claude-text-dark);
+  padding: var(--space-16) 0 var(--space-8);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--space-6);
 }
+
+/* ============================================
+   FOOTER CONTENT
+   ============================================ */
 
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
-  margin-bottom: 30px;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
 }
 
+/* Logo/Name */
 .footer-logo a {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--claude-text-dark);
   text-decoration: none;
+  transition: color var(--transition-fast);
+  letter-spacing: -0.01em;
+}
+
+.footer-logo a:hover {
+  color: var(--claude-primary);
 }
 
 .footer-logo span {
-  color: var(--text-color);
+  color: var(--claude-text-dark);
+}
+
+/* Info text */
+.footer-info {
+  max-width: 500px;
 }
 
 .footer-info p {
-  color: var(--light-text);
-  line-height: 1.6;
-  margin-top: 10px;
+  color: var(--claude-text-medium);
+  line-height: 1.65;
+  margin-top: var(--space-3);
+  font-size: var(--text-base);
 }
+
+/* ============================================
+   SOCIAL LINKS
+   ============================================ */
 
 .footer-social {
   display: flex;
-  gap: 15px;
+  gap: var(--space-3);
 }
 
 .footer-social a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
-  color: var(--text-color);
-  transition: var(--transition);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background-color: var(--claude-background);
+  border: 1px solid var(--claude-border);
+  color: var(--claude-text-medium);
+  transition: all var(--transition-base);
+  font-size: 18px;
 }
 
 .footer-social a:hover {
-  background-color: var(--primary-color);
-  color: var(--white);
+  background-color: var(--claude-primary);
+  border-color: var(--claude-primary);
+  color: #ffffff;
   transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
 }
 
+/* ============================================
+   FOOTER BOTTOM
+   ============================================ */
+
 .footer-bottom {
-  padding-top: 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--claude-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .footer-bottom p {
-  color: var(--light-text);
-  font-size: 14px;
+  color: var(--claude-text-light);
+  font-size: var(--text-sm);
 }
 
+/* ============================================
+   SCROLL TO TOP BUTTON
+   ============================================ */
+
 .scroll-to-top {
-  width: 40px;
-  height: 40px;
-  background-color: var(--primary-color);
-  color: var(--white);
+  width: 44px;
+  height: 44px;
+  background-color: var(--claude-primary);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all var(--transition-base);
+  font-size: 18px;
 }
 
 .scroll-to-top:hover {
-  background-color: #1565c0;
+  background-color: var(--claude-accent-light);
   transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
 }
 
+.scroll-to-top:active {
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
 @media screen and (max-width: 768px) {
+  .footer {
+    padding: var(--space-12) 0 var(--space-6);
+  }
+
+  .footer-content {
+    gap: var(--space-5);
+    margin-bottom: var(--space-8);
+  }
+
+  .footer-logo a {
+    font-size: var(--text-xl);
+  }
+
+  .footer-info p {
+    font-size: var(--text-sm);
+  }
+
   .footer-bottom {
     flex-direction: column;
-    gap: 15px;
+    gap: var(--space-4);
     text-align: center;
   }
+
+  .footer-social a {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer {
+    padding: var(--space-10) 0 var(--space-5);
+  }
+
+  .footer .container {
+    padding: 0 var(--space-4);
+  }
+
+  .footer-content {
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .footer-logo a {
+    font-size: var(--text-lg);
+  }
+
+  .footer-info p {
+    font-size: var(--text-xs);
+  }
+
+  .footer-bottom p {
+    font-size: var(--text-xs);
+  }
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background-color: var(--claude-surface);
+  }
+
+  .footer-social a {
+    background-color: var(--claude-bg-hover);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-social a,
+  .scroll-to-top {
+    transition: none;
+  }
+
+  .footer-social a:hover,
+  .scroll-to-top:hover {
+    transform: none;
+  }
+}
+
+/* Focus states for accessibility */
+.footer-social a:focus-visible,
+.scroll-to-top:focus-visible,
+.footer-logo a:focus-visible {
+  outline: 2px solid var(--claude-primary);
+  outline-offset: 2px;
 }

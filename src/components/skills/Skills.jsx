@@ -35,23 +35,13 @@ const Skills = () => {
         { name: "Figma", level: 75 },
         { name: "VSCode", level: 95 }
       ]
-    },
-    // {
-    //   category: "Development Practices",
-    //   skills: [
-    //     { name: "SOLID Principles", level: 80 },
-    //     { name: "Server-Side Rendering", level: 75 },
-    //     { name: "Client-Side Rendering", level: 85 },
-    //     { name: "NX Packaging", level: 70 }
-    //   ]
-    // }
+    }
   ];
 
   return (
     <section id="skills" className="skills">
       <div className="container">
         <h2>My Skills</h2>
-        
         <div className="skills-container">
           {skillCategories.map((category, catIndex) => (
             <div key={catIndex} className="skill-category">
@@ -67,6 +57,11 @@ const Skills = () => {
                       <div 
                         className="skill-progress" 
                         style={{ width: `${skill.level}%` }}
+                        role="progressbar"
+                        aria-valuenow={skill.level}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label={`${skill.name} proficiency`}
                       ></div>
                     </div>
                   </div>

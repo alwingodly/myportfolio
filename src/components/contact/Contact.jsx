@@ -1,19 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./Contact.css";
-import {
-  FaPhone,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaGithub,
-  FaLinkedin,
-} from "react-icons/fa";
 import emailjs from "@emailjs/browser";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
 const service_Id = import.meta.env.VITE_SERVICE_ID;
 const template_Id = import.meta.env.VITE_TEMPLATE_ID;
 const public_Key = import.meta.env.VITE_PUBLIC_KEY;
 
 const Contact = () => {
   const form = useRef();
+  const elementsRef = useRef([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,6 +21,25 @@ const Contact = () => {
     success: false,
     message: "",
   });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    elementsRef.current.forEach((el) => {
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +61,7 @@ const Contact = () => {
         setIsSubmitting(false);
         setSubmitStatus({
           success: true,
-          message: "Message sent successfully! I will get back to you soon.",
+          message: "Message sent successfully! I'll get back to you soon.",
         });
         setFormData({
           name: "",
@@ -66,121 +81,181 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="contact">
+    <section id="contact" className="contact-section">
       <div className="container">
-        <h2>Get In Touch</h2>
+        
+        <div 
+          className="section-header fade-up"
+          ref={(el) => (elementsRef.current[0] = el)}
+        >
+          <span className="section-label">Contact</span>
+          <h2 className="section-title">Get in Touch</h2>
+          <p className="section-subtitle">
+            Have a project in mind or want to discuss opportunities? 
+            I'd love to hear from you.
+          </p>
+        </div>
 
-        <div className="contact-content">
-          <div className="contact-info">
-            <h3>Let's Connect</h3>
-            <p>
-              Feel free to reach out for any opportunities, questions, or just
-              to say hello. I'm always open to discussing new projects, creative
-              ideas, or opportunities to be part of your vision.
-            </p>
+        <div className="contact-grid">
+          
+          {/* Contact Info */}
+          <div 
+            className="contact-info fade-up"
+            ref={(el) => (elementsRef.current[1] = el)}
+          >
+            <div className="info-block">
+              <h3 className="info-title">Let's connect</h3>
+              <p className="info-description">
+                I'm always open to discussing new projects, creative ideas, 
+                or opportunities to contribute to your vision.
+              </p>
+            </div>
 
-            <div className="info-item">
-              <FaPhone className="info-icon" />
-              <div>
-                <h4>Phone</h4>
-                <p>+91 9746564270</p>
+            <div className="contact-details">
+              <div className="detail-item">
+                <span className="detail-label">Email</span>
+                <a 
+                  href="mailto:alwingodlymathew@gmail.com" 
+                  className="detail-value"
+                >
+                  alwingodlymathew@gmail.com
+                </a>
+              </div>
+
+              <div className="detail-item">
+                <span className="detail-label">Phone</span>
+                <a 
+                  href="tel:+919746564270" 
+                  className="detail-value"
+                >
+                  +91 9746564270
+                </a>
+              </div>
+
+              <div className="detail-item">
+                <span className="detail-label">Location</span>
+                <span className="detail-value">Trivandrum, Kerala, India</span>
               </div>
             </div>
 
-            <div className="info-item">
-              <FaEnvelope className="info-icon" />
-              <div>
-                <h4>Email</h4>
-                <p>alwingodlymathew@gmail.com</p>
+            <div className="social-section">
+              <span className="social-label">Find me on</span>
+              <div className="social-links">
+                <a
+                  href="https://github.com/alwingodly"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
+                  <FaGithub/>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-link"
+                >
+                  <FaLinkedin />
+                </a>
               </div>
-            </div>
-
-            <div className="info-item">
-              <FaMapMarkerAlt className="info-icon" />
-              <div>
-                <h4>Location</h4>
-                <p>Kerala, India</p>
-              </div>
-            </div>
-
-            <div className="social-links">
-              <a
-                href="https://github.com/alwingodly"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaGithub />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaLinkedin />
-              </a>
             </div>
           </div>
 
-          <div className="contact-form">
-            <h3>Send Me a Message</h3>
-            {submitStatus.message && (
-              <div
-                className={`alert ${
-                  submitStatus.success ? "alert-success" : "alert-error"
-                }`}
-              >
-                {submitStatus.message}
-              </div>
-            )}
-            <form ref={form} onSubmit={handleSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+          {/* Contact Form */}
+          <div 
+            className="contact-form-wrapper fade-up"
+            ref={(el) => (elementsRef.current[2] = el)}
+          >
+            <div className="form-container">
+              
+              {submitStatus.message && (
+                <div
+                  className={`status-message ${
+                    submitStatus.success ? "status-success" : "status-error"
+                  }`}
+                >
+                  {submitStatus.message}
+                </div>
+              )}
 
-              <div className="form-group">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <form ref={form} onSubmit={handleSubmit} className="contact-form">
+                <div className="form-row">
+                  <div className="form-field">
+                    <label htmlFor="name" className="field-label">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="field-input"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      placeholder="Your name"
+                    />
+                  </div>
 
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="subject"
-                  placeholder="Subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+                  <div className="form-field">
+                    <label htmlFor="email" className="field-label">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="field-input"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                </div>
 
-              <div className="form-group">
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                ></textarea>
-              </div>
+                <div className="form-field">
+                  <label htmlFor="subject" className="field-label">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    className="field-input"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                    placeholder="What's this about?"
+                  />
+                </div>
 
-              <button type="submit" className="btn" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </button>
-            </form>
+                <div className="form-field">
+                  <label htmlFor="message" className="field-label">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    className="field-textarea"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    placeholder="Your message..."
+                    rows="6"
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="btn btn-primary"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </button>
+              </form>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
