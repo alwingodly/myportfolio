@@ -1,113 +1,76 @@
 /* ============================================
-   EDUCATION SECTION - Claude Warm Theme
-   Dynamic & Visually Interesting
+   EDUCATION SECTION - Clean & Professional
+   Simple cards for web, smooth mobile experience
    ============================================ */
 
 .education {
-  background: linear-gradient(135deg, var(--claude-background) 0%, #F8F5EE 100%);
-  padding: var(--space-20) 0;
+  background: var(--claude-surface);
+  padding: var(--space-24) 0;
   position: relative;
-  overflow: hidden;
-}
-
-/* Subtle background pattern */
-.education::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(217, 119, 87, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(230, 152, 114, 0.05) 0%, transparent 50%);
-  pointer-events: none;
 }
 
 .education .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--space-6);
-  position: relative;
-  z-index: 1;
 }
 
 /* ============================================
    SECTION HEADER
    ============================================ */
 
-.education h2 {
-  font-size: var(--text-4xl);
-  font-weight: 600;
+.education .section-header {
   text-align: center;
   margin-bottom: var(--space-16);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.education .section-title {
+  font-size: var(--text-4xl);
+  font-weight: 700;
   color: var(--claude-text-dark);
+  margin-bottom: var(--space-3);
   letter-spacing: -0.02em;
-  position: relative;
-  display: inline-block;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
-.education h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--claude-primary), var(--claude-accent-light));
-  border-radius: 2px;
-}
-
-/* Section subtitle with icon */
-.section-subtitle {
-  font-size: var(--text-xl);
-  font-weight: 600;
-  margin-bottom: var(--space-8);
-  color: var(--claude-text-dark);
-  letter-spacing: -0.01em;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.section-subtitle::before {
-  content: '🎓';
-  font-size: var(--text-2xl);
-  display: inline-block;
-}
-
-.training-section .section-subtitle::before {
-  content: '💼';
+.education .section-subtitle {
+  font-size: var(--text-base);
+  color: var(--claude-text-medium);
+  line-height: 1.6;
 }
 
 /* ============================================
    EDUCATION GRID
    ============================================ */
 
-.education-timeline {
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-6);
   margin-bottom: var(--space-16);
 }
 
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-6);
-  padding: var(--space-4) 0;
-}
+/* ============================================
+   EDUCATION CARDS (Simple & Clean)
+   ============================================ */
 
-/* Education card with gradient border */
-.timeline-item {
-  position: relative;
+.education-card {
+  background: var(--claude-background);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--claude-border);
+  transition: all var(--transition-base);
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
+  transform: translateY(20px);
 }
 
-.timeline-item:nth-child(1) { animation-delay: 0.1s; }
-.timeline-item:nth-child(2) { animation-delay: 0.2s; }
-.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.education-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInUp 0.5s ease forwards;
+}
 
 @keyframes fadeInUp {
   from {
@@ -120,274 +83,361 @@
   }
 }
 
-.timeline-content {
-  background-color: var(--claude-surface);
-  padding: var(--space-6);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--claude-border);
-  transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Gradient accent bar on top */
-.timeline-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--claude-primary), var(--claude-accent-light));
-}
-
-.timeline-content:hover {
+.education-card:hover {
   border-color: var(--claude-primary);
-  box-shadow: 0 8px 24px rgba(217, 119, 87, 0.15);
+  box-shadow: 0 4px 12px rgba(217, 119, 87, 0.15);
   transform: translateY(-4px);
 }
 
-/* Year badge with icon */
-.timeline-year {
-  display: inline-flex;
+/* Card Header (Year and Score) */
+.card-header {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+}
+
+.year-badge {
+  font-size: var(--text-sm);
   font-weight: 600;
   color: var(--claude-primary);
-  background: linear-gradient(135deg, var(--claude-accent-bg), #FEF8F1);
-  padding: var(--space-2) var(--space-3);
+  background: var(--claude-accent-bg);
+  padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-md);
-  margin-bottom: var(--space-4);
-  border: 1px solid rgba(217, 119, 87, 0.2);
 }
 
-.timeline-year::before {
-  content: '📅';
-  font-size: var(--text-sm);
-}
-
-/* Degree with emphasis */
-.timeline-content h4 {
-  font-size: var(--text-lg);
+.score-badge {
+  font-size: var(--text-xs);
   font-weight: 600;
-  margin-bottom: var(--space-2);
+  color: var(--claude-text-medium);
+  background: var(--claude-surface);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--claude-border);
+}
+
+/* Card Content */
+.degree-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
   color: var(--claude-text-dark);
+  margin-bottom: var(--space-2);
   line-height: 1.3;
 }
 
-.timeline-content h5 {
+.field-name {
   font-size: var(--text-sm);
   font-weight: 500;
-  margin-bottom: var(--space-3);
   color: var(--claude-primary);
+  margin-bottom: var(--space-2);
   line-height: 1.4;
 }
 
-.timeline-content p {
-  color: var(--claude-text-medium);
+.institution-name {
   font-size: var(--text-sm);
-  margin-bottom: var(--space-2);
+  color: var(--claude-text-medium);
   line-height: 1.5;
 }
 
-/* Score badge */
-.education-score {
-  font-weight: 600;
-  color: var(--claude-primary);
-  font-size: var(--text-sm);
-  background-color: var(--claude-accent-bg);
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-md);
-  display: inline-block;
-  margin-top: auto;
-  border: 1px solid rgba(217, 119, 87, 0.2);
-}
-
-.education-score::before {
-  content: '⭐ ';
-}
-
 /* ============================================
-   TRAINING SECTION - Card Style
+   TRAINING SECTION
    ============================================ */
 
 .training-section {
   margin-top: var(--space-16);
 }
 
-.training-cards {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
+.subsection-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--claude-text-dark);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--claude-border);
+  letter-spacing: -0.01em;
 }
 
+/* ============================================
+   TRAINING CARD (Clean & Professional)
+   ============================================ */
+
 .training-card {
-  background: linear-gradient(135deg, var(--claude-surface) 0%, #FDFCFB 100%);
-  padding: var(--space-6);
+  background: var(--claude-background);
+  padding: var(--space-8);
   border-radius: var(--radius-lg);
   border: 1px solid var(--claude-border);
   transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-  animation-delay: 0.4s;
+  transform: translateY(20px);
 }
 
-/* Decorative corner accent */
-.training-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle at top right, rgba(217, 119, 87, 0.1), transparent);
-  border-radius: 0 var(--radius-lg) 0 100%;
+.training-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 .training-card:hover {
   border-color: var(--claude-primary);
-  box-shadow: 0 8px 24px rgba(217, 119, 87, 0.15);
-  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(217, 119, 87, 0.15);
 }
 
-/* Period badge */
-.training-period {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--claude-primary);
-  background: linear-gradient(135deg, var(--claude-accent-bg), #FEF8F1);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-4);
-  border: 1px solid rgba(217, 119, 87, 0.2);
+/* Training Header */
+.training-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+  gap: var(--space-4);
 }
 
-.training-period::before {
-  content: '🚀';
-  font-size: var(--text-sm);
+.training-info {
+  flex: 1;
 }
 
-.training-content h4 {
+.training-title {
   font-size: var(--text-xl);
-  font-weight: 600;
-  margin-bottom: var(--space-4);
+  font-weight: 700;
   color: var(--claude-text-dark);
+  margin-bottom: var(--space-2);
   line-height: 1.3;
 }
 
-/* Enhanced list styling */
-.training-content ul {
-  margin-left: 0;
+.training-type {
+  font-size: var(--text-sm);
+  color: var(--claude-text-medium);
+  font-weight: 500;
+}
+
+.training-period {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--claude-primary);
+  background: var(--claude-accent-bg);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+}
+
+/* Training Highlights (Clean List) */
+.training-highlights {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
-.training-content ul li {
-  color: var(--claude-text-medium);
-  line-height: 1.65;
+.training-highlights li {
   font-size: var(--text-sm);
-  padding-left: var(--space-6);
+  color: var(--claude-text-medium);
+  line-height: 1.6;
+  padding-left: var(--space-5);
   position: relative;
 }
 
-.training-content ul li::before {
-  content: '▸';
+.training-highlights li::before {
+  content: '•';
   position: absolute;
   left: var(--space-2);
   color: var(--claude-primary);
   font-weight: 700;
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
 }
 
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
-@media (max-width: 768px) {
-  .education {
-    padding: var(--space-16) 0;
-  }
-
-  .education h2 {
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-12);
-  }
-
-  .section-subtitle {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-6);
-  }
-
-  .timeline {
-    grid-template-columns: 1fr;
+/* Tablets */
+@media (max-width: 1024px) {
+  .education-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-5);
-  }
-
-  .timeline-content,
-  .training-card {
-    padding: var(--space-5);
-  }
-
-  .training-section {
-    margin-top: var(--space-12);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .education {
-    padding: var(--space-12) 0;
+    padding: var(--space-16) 0;
   }
 
   .education .container {
     padding: 0 var(--space-4);
   }
 
-  .education h2 {
-    font-size: var(--text-2xl);
+  .education .section-header {
+    margin-bottom: var(--space-12);
+  }
+
+  .education .section-title {
+    font-size: var(--text-3xl);
+  }
+
+  .education .section-subtitle {
+    font-size: var(--text-sm);
+  }
+
+  .education-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .education-card {
+    padding: var(--space-5);
+  }
+
+  .subsection-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .training-card {
+    padding: var(--space-6);
+  }
+
+  .training-header {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .training-period {
+    align-self: flex-start;
+  }
+
+  .training-title {
+    font-size: var(--text-lg);
+  }
+
+  /* Smooth mobile animations */
+  .education-card,
+  .training-card {
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .education {
+    padding: var(--space-12) 0;
+  }
+
+  .education .section-header {
     margin-bottom: var(--space-10);
   }
 
-  .section-subtitle {
-    font-size: var(--text-base);
-    margin-bottom: var(--space-5);
+  .education .section-title {
+    font-size: var(--text-2xl);
   }
 
-  .section-subtitle::before {
-    font-size: var(--text-xl);
+  .education .section-subtitle {
+    font-size: var(--text-xs);
   }
 
-  .timeline-content,
-  .training-card {
+  .education-grid {
+    gap: var(--space-3);
+  }
+
+  .education-card {
     padding: var(--space-4);
   }
 
-  .timeline-content h4,
-  .training-content h4 {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .year-badge {
+    font-size: var(--text-xs);
+  }
+
+  .score-badge {
+    font-size: 0.65rem;
+  }
+
+  .degree-title {
     font-size: var(--text-base);
   }
 
-  .timeline-content h5 {
+  .field-name,
+  .institution-name {
     font-size: var(--text-xs);
   }
 
-  .timeline-content p,
-  .training-content ul li {
+  .subsection-title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-5);
+  }
+
+  .training-card {
+    padding: var(--space-5);
+  }
+
+  .training-title {
+    font-size: var(--text-base);
+  }
+
+  .training-type {
     font-size: var(--text-xs);
   }
 
-  .training-content ul li {
-    padding-left: var(--space-5);
+  .training-period {
+    font-size: var(--text-xs);
+    padding: var(--space-1) var(--space-3);
+  }
+
+  .training-highlights {
+    gap: var(--space-2);
+  }
+
+  .training-highlights li {
+    font-size: var(--text-xs);
+    padding-left: var(--space-4);
+  }
+
+  .training-highlights li::before {
+    font-size: var(--text-base);
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .education {
+    padding: var(--space-10) 0;
+  }
+
+  .education-card,
+  .training-card {
+    padding: var(--space-3);
+  }
+
+  .degree-title {
+    font-size: var(--text-sm);
+  }
+
+  .training-title {
+    font-size: var(--text-sm);
+  }
+}
+
+/* Landscape on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .education {
+    padding: var(--space-12) 0;
+  }
+
+  .education-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .training-header {
+    flex-direction: row;
   }
 }
 
@@ -397,16 +447,22 @@
 
 @media (prefers-color-scheme: dark) {
   .education {
-    background: linear-gradient(135deg, var(--claude-background) 0%, #1A1816 100%);
-  }
-
-  .timeline-content,
-  .training-card {
     background: var(--claude-surface);
   }
 
+  .education-card,
   .training-card {
-    background: linear-gradient(135deg, var(--claude-surface) 0%, #1F1D1B 100%);
+    background: var(--claude-background);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .education-card:hover,
+  .training-card:hover {
+    box-shadow: 0 4px 12px rgba(217, 119, 87, 0.25);
+  }
+
+  .score-badge {
+    background: rgba(255, 255, 255, 0.05);
   }
 }
 
@@ -415,14 +471,75 @@
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .timeline-item,
+  .education-card,
   .training-card {
-    opacity: 1;
-    animation: none;
+    animation: none !important;
+    transition: none !important;
   }
 
-  .timeline-content,
+  .education-card.visible,
+  .training-card.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .education-card:hover,
+  .training-card:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.education-card:focus-within,
+.training-card:focus-within {
+  outline: 2px solid var(--claude-primary);
+  outline-offset: 4px;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .education-card:hover,
+  .training-card:hover {
+    transform: none;
+  }
+
+  .education-card:active,
+  .training-card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .education-card,
   .training-card {
-    transition: none;
+    border-width: 2px;
+  }
+
+  .year-badge,
+  .score-badge,
+  .training-period {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Print styles */
+@media print {
+  .education {
+    background: white;
+    padding: 20px 0;
+  }
+
+  .education-card,
+  .training-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .education-card:hover,
+  .training-card:hover {
+    transform: none;
+    box-shadow: none;
   }
 }
