@@ -512,3 +512,227 @@ select:focus-visible {
     --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.6);
   }
 }
+
+/* ============================================
+   STANDARD JACKPOT CURSOR
+   Professional, Elegant, Refined
+   ============================================ */
+
+body.custom-cursor,
+body.custom-cursor * {
+  cursor: none !important;
+}
+
+/* ============================================
+   MAIN CURSOR - Dot
+   ============================================ */
+
+.standard-cursor {
+  width: 10px;
+  height: 10px;
+  position: fixed;
+  top: -5px;
+  left: -5px;
+  pointer-events: none;
+  z-index: 10001;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--claude-primary);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 10px var(--claude-primary),
+    0 0 20px rgba(217, 119, 87, 0.5);
+  transition: transform 0.15s ease;
+}
+
+/* ============================================
+   FOLLOWER - Smooth Ring
+   ============================================ */
+
+.cursor-follower {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  top: -20px;
+  left: -20px;
+  pointer-events: none;
+  z-index: 10000;
+  border: 2px solid var(--claude-primary);
+  border-radius: 50%;
+  opacity: 0.5;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+}
+
+/* ============================================
+   HOVER STATE - Expand & Brighten
+   ============================================ */
+
+.standard-cursor.hover .cursor-dot {
+  transform: scale(1.5);
+  box-shadow: 
+    0 0 15px var(--claude-primary),
+    0 0 30px rgba(217, 119, 87, 0.7);
+}
+
+.cursor-follower.hover {
+  width: 60px;
+  height: 60px;
+  top: -30px;
+  left: -30px;
+  opacity: 0.8;
+  border-width: 3px;
+  background-color: rgba(217, 119, 87, 0.1);
+}
+
+/* ============================================
+   CLICK STATE - Pulse
+   ============================================ */
+
+.standard-cursor.click {
+  animation: cursorPulse 0.3s ease-out;
+}
+
+@keyframes cursorPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   PARTICLES - Elegant Burst
+   ============================================ */
+
+.cursor-particle {
+  background: var(--claude-primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 5px var(--claude-primary);
+  animation: particleFloat 1s ease-out forwards;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(-50% + var(--tx)),
+      calc(-50% + var(--ty))
+    ) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   RIPPLE - Clean Wave
+   ============================================ */
+
+.cursor-ripple {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--claude-primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  animation: rippleExpand 0.8s ease-out forwards;
+}
+
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   SPARKLE TRAIL - Subtle
+   ============================================ */
+
+.cursor-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9997;
+  font-size: 12px;
+  animation: sparkleFade 1s ease-out forwards;
+}
+
+@keyframes sparkleFade {
+  0% {
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - Disable on touch
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+  .standard-cursor,
+  .cursor-follower,
+  .cursor-particle,
+  .cursor-ripple,
+  .cursor-sparkle {
+    display: none !important;
+  }
+  
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: auto !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .standard-cursor,
+  .cursor-follower,
+  .cursor-particle,
+  .cursor-ripple,
+  .cursor-sparkle {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATION
+   ============================================ */
+
+.standard-cursor,
+.cursor-follower {
+  will-change: transform;
+}
+
+.cursor-particle,
+.cursor-ripple,
+.cursor-sparkle {
+  will-change: transform, opacity;
+}

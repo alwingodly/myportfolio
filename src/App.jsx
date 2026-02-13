@@ -9,10 +9,14 @@ import Skills from './components/skills/Skills';
 import Education from './components/education/Education';
 import Contact from './components/contact/Contact';
 import Footer from './components/footer/Footer';
+import CustomCursor from './components/CustomCursor';
+import RandomWorm from './components/movingWorm/RandomWorm';
 
 function App() {
   return (
     <div className="app">
+      <CustomCursor />
+      <RandomWorm />
       <Header />
       <main>
         <Hero />
