@@ -1,5 +1,6 @@
 /* ============================================
    CONTACT SECTION - Claude Warm Theme
+   Enhanced Mobile Responsiveness
    ============================================ */
 
 .contact-section {
@@ -131,9 +132,12 @@ a.detail-value:hover {
 }
 
 .social-link {
-  /* padding: var(--space-2) var(--space-4); */
-  font-size: var(--text-sm);
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
   color: var(--claude-text-medium);
   background-color: var(--claude-surface);
   border: 1px solid var(--claude-border);
@@ -143,10 +147,15 @@ a.detail-value:hover {
 }
 
 .social-link:hover {
-  color: var(--claude-text-dark);
+  color: var(--claude-primary);
   background-color: var(--claude-bg-hover);
   border-color: var(--claude-primary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(217, 119, 87, 0.2);
+}
+
+.social-link:active {
+  transform: scale(0.95);
 }
 
 /* ============================================
@@ -302,6 +311,7 @@ a.detail-value:hover {
    RESPONSIVE DESIGN
    ============================================ */
 
+/* Large tablets */
 @media (max-width: 1024px) {
   .contact-grid {
     gap: var(--space-12);
@@ -310,8 +320,13 @@ a.detail-value:hover {
   .contact-form-wrapper {
     padding: var(--space-6);
   }
+
+  .info-title {
+    font-size: var(--text-xl);
+  }
 }
 
+/* Tablets */
 @media (max-width: 768px) {
   .contact-section {
     padding: var(--space-16) 0;
@@ -326,6 +341,10 @@ a.detail-value:hover {
     gap: var(--space-10);
   }
 
+  .contact-info {
+    gap: var(--space-8);
+  }
+
   .form-row {
     grid-template-columns: 1fr;
     gap: var(--space-5);
@@ -338,15 +357,68 @@ a.detail-value:hover {
   .contact-form-wrapper {
     padding: var(--space-5);
   }
+
+  .contact-details {
+    padding: var(--space-5);
+  }
+
+  /* Make social links larger and more touch-friendly on tablets */
+  .social-links {
+    gap: var(--space-4);
+  }
+
+  .social-link {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
 }
 
+/* Mobile phones */
 @media (max-width: 480px) {
   .contact-section {
     padding: var(--space-12) 0;
   }
 
+  .contact-section .section-header {
+    margin-bottom: var(--space-10);
+  }
+
+  .contact-grid {
+    gap: var(--space-8);
+  }
+
+  .contact-info {
+    gap: var(--space-6);
+  }
+
+  .info-block {
+    gap: var(--space-2);
+  }
+
+  .info-title {
+    font-size: var(--text-lg);
+  }
+
+  .info-description {
+    font-size: var(--text-sm);
+  }
+
   .contact-details {
-    padding: var(--space-5);
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .detail-item {
+    padding-bottom: var(--space-3);
+  }
+
+  .detail-label {
+    font-size: var(--text-xs);
+  }
+
+  .detail-value {
+    font-size: var(--text-sm);
   }
 
   .contact-form-wrapper {
@@ -361,22 +433,78 @@ a.detail-value:hover {
     gap: var(--space-4);
   }
 
+  .field-label {
+    font-size: var(--text-xs);
+  }
+
   .field-input,
   .field-textarea {
     padding: var(--space-3);
     font-size: var(--text-sm);
   }
 
+  .field-textarea {
+    min-height: 100px;
+  }
+
   .contact-form .btn-primary {
     width: 100%;
+    min-width: unset;
+  }
+
+  /* Enhanced mobile social links */
+  .social-section {
+    gap: var(--space-2);
+  }
+
+  .social-label {
+    font-size: var(--text-xs);
   }
 
   .social-links {
-    flex-direction: column;
+    gap: var(--space-3);
   }
 
   .social-link {
-    text-align: center;
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  /* Better touch feedback */
+  .social-link:hover {
+    transform: none;
+  }
+
+  .social-link:active {
+    transform: scale(0.9);
+    background-color: var(--claude-primary);
+    color: white;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  .contact-section {
+    padding: var(--space-10) 0;
+  }
+
+  .contact-details {
+    padding: var(--space-3);
+  }
+
+  .contact-form-wrapper {
+    padding: var(--space-3);
+  }
+
+  .info-title {
+    font-size: var(--text-base);
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
   }
 }
 
@@ -409,6 +537,11 @@ a.detail-value:hover {
     color: #fecaca;
     border-color: #991b1b;
   }
+
+  .social-link:active {
+    background-color: var(--claude-primary);
+    color: white;
+  }
 }
 
 /* ============================================
@@ -435,4 +568,43 @@ a.detail-value:hover {
 .social-link:focus-visible {
   outline: 2px solid var(--claude-primary);
   outline-offset: 2px;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .social-link:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Enhanced touch feedback */
+  .social-link {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .field-input,
+  .field-textarea {
+    min-height: 44px;
+  }
+
+  a.detail-value {
+    padding: var(--space-1) 0;
+    display: inline-block;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .contact-section {
+    padding: var(--space-10) 0;
+  }
+
+  .contact-grid {
+    gap: var(--space-6);
+  }
+
+  .field-textarea {
+    min-height: 80px;
+  }
 }

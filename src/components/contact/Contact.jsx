@@ -10,6 +10,7 @@ const public_Key = import.meta.env.VITE_PUBLIC_KEY;
 const Contact = () => {
   const form = useRef();
   const elementsRef = useRef([]);
+  const [isMobile, setIsMobile] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,6 +24,15 @@ const Contact = () => {
   });
 
   useEffect(() => {
+    // Check if mobile on mount
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // Intersection Observer for animations
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -38,7 +48,10 @@ const Contact = () => {
       if (el) observer.observe(el);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      observer.disconnect();
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -138,22 +151,25 @@ const Contact = () => {
               </div>
             </div>
 
+            {/* Social links - always visible but styled for mobile */}
             <div className="social-section">
-              <span className="social-label">Find me on</span>
+              <span className="social-label">Connect with me</span>
               <div className="social-links">
                 <a
                   href="https://github.com/alwingodly"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
+                  aria-label="GitHub"
                 >
-                  <FaGithub/>
+                  <FaGithub />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="social-link"
+                  aria-label="LinkedIn"
                 >
                   <FaLinkedin />
                 </a>
@@ -173,6 +189,8 @@ const Contact = () => {
                   className={`status-message ${
                     submitStatus.success ? "status-success" : "status-error"
                   }`}
+                  role="alert"
+                  aria-live="polite"
                 >
                   {submitStatus.message}
                 </div>
@@ -193,6 +211,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="Your name"
+                      autoComplete="name"
                     />
                   </div>
 
@@ -209,6 +228,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       placeholder="your.email@example.com"
+                      autoComplete="email"
                     />
                   </div>
                 </div>
@@ -241,7 +261,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     placeholder="Your message..."
-                    rows="6"
+                    rows={isMobile ? "5" : "6"}
                   ></textarea>
                 </div>
 
@@ -249,6 +269,7 @@ const Contact = () => {
                   type="submit" 
                   className="btn btn-primary"
                   disabled={isSubmitting}
+                  aria-busy={isSubmitting}
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
