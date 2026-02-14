@@ -149,12 +149,23 @@ const RandomWorm = () => {
           }
 
           let newAngle = creature.angle;
+          let currentSpeed = creature.speed;
           
-          if (creature.isExiting) {
+          // Handle escaping behavior - just speed boost, no vulgar movement
+          if (creature.isEscaping && creature.escapeStartTime) {
+            // Use much faster escape speed
+            currentSpeed = creature.escapeSpeed;
+            
+            // Keep normal movement pattern, just faster
+            // No dramatic S-curves, just straight speed
+            
+          } else if (creature.isExiting) {
+            // If exiting, head toward exit angle
             const angleDiff = creature.exitAngle - newAngle;
             const normalizedDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
             newAngle += normalizedDiff * 0.1;
           } else {
+            // Normal wandering behavior with S-pattern
             newAngle += (Math.random() - 0.5) * 0.08;
             
             const turnPhase = (Date.now() * 0.001 + creature.id) % 4;
@@ -172,32 +183,42 @@ const RandomWorm = () => {
               newAngle += (Math.random() - 0.5) * 1;
             }
             
-            // Optimized collision detection
-            const headX = creature.segments[0].x;
-            const headY = creature.segments[0].y;
-            
-            for (let other of prevCreatures) {
-              if (other.id === creature.id) continue;
+            // IMPROVED collision detection - check all segments to prevent overlap
+            if (!creature.isEscaping) {
+              const headX = creature.segments[0].x;
+              const headY = creature.segments[0].y;
               
-              // Only check first few segments for performance
-              const checkSegments = Math.min(5, other.segments.length);
-              for (let i = 0; i < checkSegments; i++) {
-                const seg = other.segments[i];
-                const dx = headX - seg.x;
-                const dy = headY - seg.y;
-                const distSq = dx * dx + dy * dy; // Skip sqrt for performance
+              for (let other of prevCreatures) {
+                if (other.id === creature.id) continue;
                 
-                if (distSq < 900) { // 30 * 30
-                  const avoidAngle = Math.atan2(dy, dx);
-                  newAngle = avoidAngle + (Math.random() - 0.5) * Math.PI / 2;
-                  break;
+                // Check ALL segments for better collision detection
+                for (let i = 0; i < other.segments.length; i++) {
+                  const seg = other.segments[i];
+                  const dx = headX - seg.x;
+                  const dy = headY - seg.y;
+                  const distSq = dx * dx + dy * dy;
+                  
+                  // Larger detection radius to prevent overlap (40px instead of 30px)
+                  if (distSq < 1600) { // 40 * 40
+                    // Strong avoidance - turn directly away from collision
+                    const avoidAngle = Math.atan2(dy, dx);
+                    newAngle = avoidAngle; // Point directly away
+                    
+                    // Add extra turn to avoid getting stuck in loops
+                    if (Math.random() < 0.5) {
+                      newAngle += Math.PI / 4; // Add 45 degree turn
+                    } else {
+                      newAngle -= Math.PI / 4;
+                    }
+                    break;
+                  }
                 }
               }
             }
           }
 
-          let newHeadX = creature.segments[0].x + Math.cos(newAngle) * creature.speed;
-          let newHeadY = creature.segments[0].y + Math.sin(newAngle) * creature.speed;
+          let newHeadX = creature.segments[0].x + Math.cos(newAngle) * currentSpeed;
+          let newHeadY = creature.segments[0].y + Math.sin(newAngle) * currentSpeed;
 
           const margin = 150;
           if (!creature.isExiting) {
@@ -223,8 +244,8 @@ const RandomWorm = () => {
           newSegments[0] = {
             x: newHeadX,
             y: newHeadY,
-            leftLegPhase: creature.segments[0].leftLegPhase + 0.15,
-            rightLegPhase: creature.segments[0].rightLegPhase + 0.15
+            leftLegPhase: creature.segments[0].leftLegPhase + (creature.isEscaping ? 0.5 : 0.15), // Much faster leg movement
+            rightLegPhase: creature.segments[0].rightLegPhase + (creature.isEscaping ? 0.5 : 0.15)
           };
 
           for (let i = 1; i < creature.segments.length; i++) {
@@ -236,15 +257,15 @@ const RandomWorm = () => {
             const distSq = dx * dx + dy * dy;
             
             const targetDist = 5.5;
-            const targetDistSq = targetDist * targetDist;
             
-            if (distSq > 1) { // Threshold to avoid division by very small numbers
+            // Normal movement - just follow the segment ahead
+            if (distSq > 1) {
               const dist = Math.sqrt(distSq);
               newSegments[i] = {
                 x: prev.x - (dx / dist) * targetDist,
                 y: prev.y - (dy / dist) * targetDist,
-                leftLegPhase: curr.leftLegPhase + 0.18,
-                rightLegPhase: curr.rightLegPhase + 0.12
+                leftLegPhase: curr.leftLegPhase + (creature.isEscaping ? 0.6 : 0.18),
+                rightLegPhase: curr.rightLegPhase + (creature.isEscaping ? 0.6 : 0.12)
               };
             } else {
               newSegments[i] = { ...curr };
@@ -279,15 +300,37 @@ const RandomWorm = () => {
         if (creature.id === creatureId && !creature.isTalking) {
           const randomMessage = messages[Math.floor(Math.random() * messages.length)];
           
+          // Start violent escaping behavior after showing message
           setTimeout(() => {
             setCreatures(prev2 => 
-              prev2.map(c => 
-                c.id === creatureId 
-                  ? { ...c, isTalking: false, message: '' } 
-                  : c
-              )
+              prev2.map(c => {
+                if (c.id === creatureId) {
+                  return { 
+                    ...c, 
+                    isTalking: false, 
+                    message: '',
+                    isEscaping: true,
+                    escapeStartTime: Date.now(),
+                    escapeSpeed: 6.5, // Very fast escape speed
+                    escapeDuration: 4000, // Escape for 4 seconds
+                    thrashIntensity: 1.2 // How violent the movement is
+                  };
+                }
+                return c;
+              })
             );
-          }, 2000);
+            
+            // Stop escaping after duration
+            setTimeout(() => {
+              setCreatures(prev3 => 
+                prev3.map(c => 
+                  c.id === creatureId 
+                    ? { ...c, isEscaping: false, escapeStartTime: null, escapeSpeed: null, escapeDuration: null, thrashIntensity: null } 
+                    : c
+                )
+              );
+            }, 4000);
+          }, 1500); // Show message for shorter time
           
           return {
             ...creature,

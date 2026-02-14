@@ -15,7 +15,7 @@ import RandomWorm from './components/movingWorm/RandomWorm';
 function App() {
   return (
     <div className="app">
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       <RandomWorm />
       <Header />
       <main>
