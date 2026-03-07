@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./About.css";
-import profileImage from "../../assets/Profile2.png"; 
+import profileImage from "../../assets/Profile.png"; 
 import resume from "../../assets/Alwin_React_Developer.pdf";
 
 const About = () => {
@@ -55,8 +55,9 @@ const About = () => {
               <span className="section-label">About</span>
               <h2 className="section-title">Alwin Godly Mathew</h2>
               <p className="lead-text">
-                Software Engineer specializing in React.js and React Native, 
-                building scalable applications that solve real problems.
+                Frontend Developer with 3+ years of experience in React.js and
+                React Native, focused on scalable architecture, performance,
+                and cross-platform product delivery.
               </p>
             </div>
 
@@ -65,18 +66,15 @@ const About = () => {
               ref={(el) => (elementsRef.current[2] = el)}
             >
               <p className="body-text">
-                Currently at Ospyn Technologies, I've delivered impactful projects 
-                including the Kerala Genomic Data Center, IOB CKYC applications, 
-                and document management platforms. My work focuses on clean 
-                architecture, performance optimization, and creating seamless 
-                user experiences.
+                At Ospyn Technologies, I led frontend delivery for Kerala
+                Genomic Data Center and built enterprise-grade KYC/CKYC and
+                document management applications using React.js, Redux Toolkit,
+                Tailwind CSS, and React Native.
               </p>
               <p className="body-text">
-                I specialize in modern frontend development with React, Redux Toolkit, 
-                and React Native, while maintaining strong fundamentals in backend 
-                technologies like Node.js and Express. I'm passionate about writing 
-                maintainable code using SOLID principles and collaborating with teams 
-                to build products that exceed expectations.
+                I specialize in state management, REST API integration,
+                responsive UI/UX, and SOLID-based engineering practices, with
+                working backend knowledge in Node.js, Express.js, and MongoDB.
               </p>
             </div>
 
@@ -86,7 +84,7 @@ const About = () => {
             >
               <div className="info-row">
                 <span className="info-label">Role</span>
-                <span className="info-value">Software Engineer</span>
+                <span className="info-value">Software Engineer (Frontend)</span>
               </div>
               <div className="info-row">
                 <span className="info-label">Email</span>

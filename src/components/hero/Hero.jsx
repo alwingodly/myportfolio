@@ -1,237 +1,77 @@
 import React, { useEffect, useRef } from 'react';
 import './Hero.css';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import profileImage from '../../assets/Profile.jpg';
+import ThreeScene from './ThreeScene';
 
 const Hero = () => {
-  const canvasRef = useRef(null);
-  const animationRef = useRef(null);
-  const particlesRef = useRef([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const isMobileRef = useRef(false);
+  const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    
-    // Check if mobile device
-    isMobileRef.current = window.innerWidth < 768;
-    
-    const setCanvasSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    
-    setCanvasSize();
-
-    // Particle class
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 2 + 1;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        // Bounce off edges
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-
-        // Mouse/touch interaction - only on desktop for performance
-        if (!isMobileRef.current) {
-          const dx = mouseRef.current.x - this.x;
-          const dy = mouseRef.current.y - this.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < 150) {
-            const angle = Math.atan2(dy, dx);
-            this.vx -= Math.cos(angle) * 0.02;
-            this.vy -= Math.sin(angle) * 0.02;
-          }
-        }
-
-        // Speed limit
-        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-        if (speed > 2) {
-          this.vx = (this.vx / speed) * 2;
-          this.vy = (this.vy / speed) * 2;
-        }
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(217, 119, 87, 0.6)';
-        ctx.fill();
-      }
-    }
-
-    // Create particles - fewer on mobile
-    const particleCount = window.innerWidth < 480 ? 20 : window.innerWidth < 768 ? 30 : 60;
-    particlesRef.current = [];
-    for (let i = 0; i < particleCount; i++) {
-      particlesRef.current.push(new Particle());
-    }
-
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Update and draw particles
-      particlesRef.current.forEach(particle => {
-        particle.update();
-        particle.draw();
-      });
-
-      // Draw connections - reduce on mobile for performance
-      const connectionDistance = isMobileRef.current ? 120 : 150;
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < particlesRef.current.length; j++) {
-          const dx = particlesRef.current[i].x - particlesRef.current[j].x;
-          const dy = particlesRef.current[i].y - particlesRef.current[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < connectionDistance) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(217, 119, 87, ${0.3 * (1 - distance / connectionDistance)})`;
-            ctx.lineWidth = 1;
-            ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
-            ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    // Mouse/touch move handler
     const handleMouseMove = (e) => {
-      if (!isMobileRef.current) {
-        mouseRef.current.x = e.clientX;
-        mouseRef.current.y = e.clientY;
-      }
+      mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mousePos.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
     };
-
-    const handleTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        mouseRef.current.x = e.touches[0].clientX;
-        mouseRef.current.y = e.touches[0].clientY;
-      }
-    };
-
-    // Resize handler with debouncing
-    let resizeTimeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        isMobileRef.current = window.innerWidth < 768;
-        setCanvasSize();
-        
-        // Recreate particles on resize
-        const newParticleCount = window.innerWidth < 480 ? 20 : window.innerWidth < 768 ? 30 : 60;
-        particlesRef.current = [];
-        for (let i = 0; i < newParticleCount; i++) {
-          particlesRef.current.push(new Particle());
-        }
-      }, 250);
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      clearTimeout(resizeTimeout);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <section id="home" className="hero">
-      {/* Animated Background */}
-      <div className="animation-container">
-        {/* Canvas for particle network */}
-        <canvas ref={canvasRef} id="particles-canvas"></canvas>
-        
-        {/* Glowing orbs */}
-        <div className="glow-orb glow-orb-1"></div>
-        <div className="glow-orb glow-orb-2"></div>
-        <div className="glow-orb glow-orb-3"></div>
-
-        {/* Animated waves */}
-        <div className="wave wave-1"></div>
-        <div className="wave wave-2"></div>
+      {/* Three.js canvas — full background */}
+      <div className="hero-canvas">
+        <ThreeScene mousePos={mousePos} />
       </div>
 
+      {/* Subtle colour tint orbs */}
+      <div className="hero-orb hero-orb-1" aria-hidden="true" />
+      <div className="hero-orb hero-orb-2" aria-hidden="true" />
+      <div className="hero-orb hero-orb-3" aria-hidden="true" />
+      <div className="hero-orb hero-orb-4" aria-hidden="true" />
+
       <div className="container">
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>Hi, I'm <span>Alwin Godly Mathew</span></h1>
-            <h3>MERN Stack Developer</h3>
-            <p>
-              I build scalable, user-friendly web and mobile applications 
-              with React.js and React Native.
-            </p>
-            
-            <div className="hero-buttons">
-              <a href="#contact" className="btn btn-primary">Get In Touch</a>
-              {/* <a href="#projects" className="btn btn-outline">View My Projects</a> */}
+        <div className="hero-inner">
+          {/* ── Left: text content ── */}
+          <div className="hero-content">
+            <div className="hero-meta">
+              <span className="hero-label">MERN Stack Developer</span>
+              <span className="hero-avail">Available for work</span>
             </div>
-            
-            <div className="social-links-hero">
-              <a 
-                href="https://github.com/alwingodly" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-              >
-                <FaGithub />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedin />
-              </a>
-              <a 
-                href="mailto:alwingodlymathew@gmail.com"
-                aria-label="Email"
-              >
-                <FaEnvelope />
-              </a>
+
+            <h1 className="hero-heading">
+              <span className="c-white">Alwin</span><br />
+              <span className="c-blue">Godly</span><br />
+              Mathew
+            </h1>
+
+            <p className="hero-desc">
+              Building scalable, user-friendly web &amp; mobile
+              applications with React.js and React Native.
+            </p>
+
+            <div className="hero-actions">
+              <a href="#contact" className="btn btn-primary">Get In Touch</a>
+              <div className="hero-social">
+                <a href="https://github.com/alwingodly" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <FaGithub />
+                </a>
+                <a href="https://www.linkedin.com/in/alwin-godly-mathew-a42754217" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <FaLinkedin />
+                </a>
+                <a href="mailto:alwingodlymathew@gmail.com" aria-label="Email">
+                  <FaEnvelope />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Optional: Uncomment to show profile image */}
-          {/* <div className="hero-image">
-            <div className="shape" style={{ backgroundImage: `url(${profileImage})` }}></div>
-          </div> */}
+          {/* ── Right: 3D scene shows through ── */}
+          <div className="hero-visual" aria-hidden="true" />
         </div>
       </div>
 
-      <div className="hero-scroll">
-        <a href="#about" aria-label="Scroll to About section">
-          <div className="mouse"></div>
-        </a>
-      </div>
+      <a href="#about" className="hero-scroll" aria-label="Scroll down">
+        <span />
+      </a>
     </section>
   );
 };

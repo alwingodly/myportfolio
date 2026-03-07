@@ -36,16 +36,19 @@ const Experience = () => {
 
         <div className="timeline-exp">
           {experiences.map((exp, index) => (
-            <div key={index} className={`timeline-item-exp ${index % 2 === 0 ? 'left' : 'right'}`}>
+            <div key={index} className="timeline-item-exp">
               <div className="timeline-content-exp">
-                <div className="date">{exp.period}</div>
-                <h3>{exp.title}</h3>
-                <h4>{exp.company}</h4>
-                <ul>
-                  {exp.responsibilities.map((resp, idx) => (
-                    <li key={idx}>{resp}</li>
-                  ))}
-                </ul>
+                <span className="exp-number">0{index + 1}</span>
+                <div className="exp-body">
+                  <div className="date">{exp.period}</div>
+                  <h3>{exp.title}</h3>
+                  <h4>{exp.company}</h4>
+                  <ul>
+                    {exp.responsibilities.map((resp, idx) => (
+                      <li key={idx}>{resp}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           ))}

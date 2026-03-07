@@ -3,31 +3,32 @@ import './Education.css';
 
 const Education = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef(null);
 
   const educationData = [
     {
       degree: "Bachelor of Technology (B.Tech)",
       field: "Electronics and Communication Engineering",
-      institution: "College Name",
+      institution: "Sree Buddha College of Engineering",
       year: "2017 – 2021",
       score: "CGPA: 7.95"
     },
     {
       degree: "Higher Secondary (12th Grade)",
-      institution: "School Name",
+      field: "Maths Computer",
+      institution: "St.George Serior Secondary School",
       year: "2017",
       score: "CGPA: 7.12"
     },
     {
       degree: "Secondary School (10th Grade)",
-      institution: "School Name",
+      field: null,
+      institution: "St.George Serior Secondary School",
       year: "2015",
       score: "CGPA: 8.6"
     }
   ];
-  
+
   const trainingData = [
     {
       title: "MERN Stack Development",
@@ -44,13 +45,6 @@ const Education = () => {
   ];
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -65,7 +59,6 @@ const Education = () => {
     }
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
       observer.disconnect();
     };
   }, []);

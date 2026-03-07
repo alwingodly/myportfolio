@@ -1,11 +1,10 @@
 /* ============================================
-   EXPERIENCE SECTION - Claude Warm Theme
-   Clean Timeline Design
+   EXPERIENCE SECTION — Editorial Redesign
    ============================================ */
 
 .experience {
-  background-color: var(--claude-background);
-  padding: var(--space-24) 0;
+  background-color: var(--_colors---light-white);
+  padding: var(--section-padding-lg) 0;
   position: relative;
 }
 
@@ -13,274 +12,179 @@
   max-width: 900px;
 }
 
+/* ─── Section Header ─── */
 .experience h2 {
-  font-size: var(--text-4xl);
-  font-weight: 600;
-  text-align: center;
-  margin-bottom: var(--space-16);
-  color: var(--claude-text-dark);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 400;
+  text-transform: uppercase;
   letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: var(--claude-text-dark);
+  margin-bottom: 80px;
 }
 
-/* ============================================
-   TIMELINE - Minimal vertical design
-   ============================================ */
-
+/* ─── Timeline ─── */
 .timeline-exp {
-  position: relative;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: var(--space-8) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-/* Timeline line */
-.timeline-exp::before {
-  content: '';
-  position: absolute;
-  width: 2px;
-  background-color: var(--claude-border);
-  top: 0;
-  bottom: 0;
-  left: 30px;
-}
-
-/* ============================================
-   TIMELINE ITEMS - Card-based
-   ============================================ */
-
+/* ─── Timeline Items ─── */
 .timeline-item-exp {
   position: relative;
-  padding-left: 70px;
-  padding-bottom: var(--space-10);
-  width: 100%;
+  padding: 40px 0;
+  border-top: 1px solid var(--claude-border);
 }
 
 .timeline-item-exp:last-child {
-  padding-bottom: 0;
+  border-bottom: 1px solid var(--claude-border);
 }
 
-/* Timeline dot */
-.timeline-item-exp::before {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  background-color: var(--claude-primary);
-  border: 3px solid var(--claude-background);
-  border-radius: 50%;
-  left: 22px;
-  top: 28px;
-  z-index: 2;
-  box-shadow: 0 0 0 3px var(--claude-border);
-  transition: all var(--transition-base);
-}
-
-.timeline-item-exp:hover::before {
-  transform: scale(1.3);
-  box-shadow: 0 0 0 6px var(--claude-accent-bg);
-}
-
-/* ============================================
-   CONTENT CARD
-   ============================================ */
-
+/* ─── Content Card ─── */
 .timeline-content-exp {
-  padding: var(--space-6);
-  background-color: var(--claude-surface);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--claude-border);
-  box-shadow: var(--shadow-subtle);
-  transition: all var(--transition-base);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 40px;
+  align-items: start;
 }
 
-.timeline-content-exp:hover {
-  border-color: var(--claude-primary);
-  box-shadow: var(--shadow-soft);
-  transform: translateX(4px);
+/* Number */
+.exp-number {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--claude-border);
+  line-height: 1;
+  padding-top: 4px;
+}
+
+/* Body wrapper */
+.exp-body {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Date badge */
 .date {
-  display: inline-block;
-  background-color: var(--claude-accent-bg);
-  color: var(--claude-primary);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  font-size: var(--text-xs);
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--_colors---yellow);
+  color: var(--claude-text-dark);
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
   margin-bottom: var(--space-4);
-  letter-spacing: 0.02em;
-  border: 1px solid var(--claude-border);
+  letter-spacing: 0.05em;
 }
 
-/* Title */
-.timeline-content-exp h3 {
-  font-size: var(--text-xl);
-  font-weight: 600;
+/* Role title */
+.exp-body h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
   color: var(--claude-text-dark);
+  line-height: 1.1;
   margin-bottom: var(--space-2);
-  line-height: 1.4;
 }
 
 /* Company */
-.timeline-content-exp h4 {
+.exp-body h4 {
+  font-family: var(--font-family);
   font-size: var(--text-base);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--claude-primary);
+  text-transform: none;
+  letter-spacing: 0;
   margin-bottom: var(--space-5);
-  line-height: 1.5;
 }
 
-/* Responsibilities list */
-.timeline-content-exp ul {
-  margin-left: var(--space-5);
-  list-style-type: disc;
+/* Responsibilities */
+.exp-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
 }
 
-.timeline-content-exp ul li {
+.exp-body ul li {
+  position: relative;
+  padding-left: 16px;
   color: var(--claude-text-medium);
   line-height: 1.65;
   font-size: var(--text-base);
-  padding-left: var(--space-2);
 }
 
-.timeline-content-exp ul li::marker {
-  color: var(--claude-primary);
-  font-size: var(--text-sm);
+.exp-body ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--claude-primary);
+  flex-shrink: 0;
 }
 
-/* Highlight key achievements */
-.timeline-content-exp ul li strong {
-  color: var(--claude-text-dark);
-  font-weight: 600;
-}
-
-/* ============================================
-   ANIMATIONS
-   ============================================ */
-
+/* ─── Animations ─── */
 .timeline-item-exp {
   opacity: 0;
-  transform: translateX(-20px);
-  animation: slideInLeft 0.5s ease forwards;
+  transform: translateY(20px);
+  animation: expFadeIn 0.5s ease forwards;
 }
 
-.timeline-item-exp:nth-child(1) {
-  animation-delay: 0.1s;
+.timeline-item-exp:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item-exp:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item-exp:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes expFadeIn {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.timeline-item-exp:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.timeline-item-exp:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-@keyframes slideInLeft {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
-  .experience {
-    padding: var(--space-16) 0;
-  }
+  .experience { padding: 80px 0; }
 
-  .experience h2 {
-    margin-bottom: var(--space-12);
-    font-size: var(--text-3xl);
-  }
-
-  .timeline-exp::before {
-    left: 20px;
-  }
-
-  .timeline-item-exp {
-    padding-left: 50px;
-    padding-bottom: var(--space-8);
-  }
-
-  .timeline-item-exp::before {
-    left: 12px;
-    top: 24px;
-  }
+  .experience h2 { margin-bottom: 56px; }
 
   .timeline-content-exp {
-    padding: var(--space-5);
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
   }
 
-  .timeline-content-exp h3 {
-    font-size: var(--text-lg);
+  .exp-number {
+    font-size: 2rem;
   }
 
-  .timeline-content-exp h4 {
-    font-size: var(--text-sm);
-  }
+  .timeline-item-exp { padding: 32px 0; }
 
-  .timeline-content-exp ul {
-    margin-left: var(--space-4);
-  }
-
-  .timeline-content-exp ul li {
-    font-size: var(--text-sm);
-  }
+  .exp-body h3 { font-size: 1.25rem; }
+  .exp-body h4 { font-size: var(--text-sm); }
+  .exp-body ul li { font-size: var(--text-sm); }
 }
 
 @media (max-width: 480px) {
-  .experience {
-    padding: var(--space-12) 0;
-  }
-
-  .timeline-exp {
-    padding: var(--space-6) 0;
-  }
-
-  .timeline-item-exp {
-    padding-left: 44px;
-    padding-bottom: var(--space-6);
-  }
+  .experience { padding: 64px 0; }
 
   .timeline-content-exp {
-    padding: var(--space-4);
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .date {
-    font-size: 11px;
-    padding: var(--space-1) var(--space-3);
+  .exp-number {
+    font-size: 1.5rem;
   }
 
-  .timeline-content-exp h3 {
-    font-size: var(--text-base);
-  }
+  .timeline-item-exp { padding: 24px 0; }
 }
-
-/* ============================================
-   DARK MODE
-   ============================================ */
-
-@media (prefers-color-scheme: dark) {
-  .timeline-item-exp::before {
-    border-color: var(--claude-background);
-  }
-
-  .timeline-content-exp {
-    background-color: var(--claude-surface);
-  }
-}
-
-/* ============================================
-   ACCESSIBILITY
-   ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
   .timeline-item-exp {
@@ -288,10 +192,4 @@
     transform: none;
     animation: none;
   }
-
-  .timeline-content-exp,
-  .timeline-item-exp::before {
-    transition: none;
-  }
 }
-
