@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://myportfolio-chi-eosin.vercel.app/sitemap.xml

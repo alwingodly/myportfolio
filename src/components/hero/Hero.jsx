@@ -1,25 +1,13 @@
-import React, { useEffect, useRef } from 'react';
 import './Hero.css';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import ThreeScene from './ThreeScene';
 
 const Hero = () => {
-  const mousePos = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mousePos.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   return (
     <section id="home" className="hero">
       {/* Three.js canvas — full background */}
       <div className="hero-canvas">
-        <ThreeScene mousePos={mousePos} />
+        <ThreeScene />
       </div>
 
       {/* Subtle colour tint orbs */}

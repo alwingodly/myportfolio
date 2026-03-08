@@ -57,8 +57,6 @@ const RINGS = [
    A very slow Y-precession keeps it alive without distorting the look.
 ══════════════════════════════════════════════════════ */
 function LensingArch() {
-  /* Arch is fixed — only the accretion disk rotates around the black hole */
-
   /* Each layer: [radius, tube, radialSeg, tubularSeg, color, opacity] */
   const layers = [
     /* ── Razor-thin core line — pure white ── */
@@ -332,13 +330,14 @@ function Stars({ count, spread }) {
 function Scene({ isMobile, isTablet }) {
   const ref   = useRef();
   const sc    = isMobile ? 0.68 : isTablet ? 0.88 : 1.12;
-  const baseX = isMobile ? 0 : isTablet ? 0.28 : 0.65;
+  const baseX = isMobile ? 0    : isTablet ? 0.28  : 0.65;
+  /* On mobile push black hole into the lower half of the viewport */
+  const baseY = isMobile ? -2.2 : isTablet ? -0.3  : 0;
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
-    /* Organic float only — no rotation so the black hole stays stationary */
     ref.current.position.x = baseX + Math.sin(t * 0.32) * 0.10;
-    ref.current.position.y = Math.sin(t * 0.24) * 0.07 + Math.cos(t * 0.41) * 0.04;
+    ref.current.position.y = baseY + Math.sin(t * 0.24) * 0.07 + Math.cos(t * 0.41) * 0.04;
   });
 
   return (
