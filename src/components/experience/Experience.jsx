@@ -1,61 +1,83 @@
-import React from 'react';
-import './Experience.css';
+'use client'
 
-const Experience = () => {
-  const experiences = [
-    {
-      title: "Software Engineer | React Developer",
-      company: "Ospyn Technologies Limited",
-      period: "October, 2023 – Present",
-      responsibilities: [
-        "KYC Web Application: Troubleshot and resolved technical issues to enhance performance and user experience using React.js, ensuring smooth functionality and system stability.",
-        "CKYC Web Application: Rebuilt a complex system, redesigning architecture with new paths and functionalities; integrated QR scanner to streamline verification.",
-        "Genomic Data Management Web Application: Independently handled frontend development using React.js, Tailwind CSS, and React Hook Form; collaborated with backend teams for API integration and successful deployment.",
-        "Document Management Application 1: Developed full application with navigation, authentication, folder management, listing, breadcrumb navigation, and API integrations; applied SOLID principles for maintainability.",
-        "Document Management Application 2: Developed UI based on Figma designs; optimized performance and code quality using SOLID principles.",
-        "Annotation Viewer Module: Independently built an annotation viewer using Jetpack Compose and integrated with React Native; implemented drawing, zooming, panning, swipe navigation, and created two functional variants.",
-        "Office Note Module: Created viewer components, comment sections, and key UI elements for seamless user interactions.",
-        "Banking Frontend Contribution: Contributed briefly to frontend integration and debugging to support secure and efficient application functionality."
-      ]
-    },
-    {
-      title: "Associate Software Engineer",
-      company: "Open Leaves",
-      period: "January 2022 - October, 2022",
-      responsibilities: [
-        "Portfolio Website: Developed a responsive portfolio site for a startup company using HTML, CSS, JavaScript, and Bootstrap.",
-        "Task Management Application (Tasker): Collaborated with the team to design and develop a task management solution using Node.js, Express.js, SSR, and MongoDB. Contributed to back-end logic, database integration, and efficient task handling for the company's internal project."
-      ]
-    }
-  ];
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import './Experience.css'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const ROLES = [
+  {
+    company: 'Ospyn Technologies', role: 'Software Engineer · React & React Native',
+    period: 'Oct 2023 — Present', current: true, span: 'c12', wide: true,
+    points: [
+      'Led the frontend for the Kerala Genomic Data Center (React.js, Redux Toolkit, Tailwind) — delivered ahead of schedule.',
+      'Built the IOB CKYC web app in React.js — optimised performance, cut re-renders and fixed security vulnerabilities.',
+      'Rebuilt the IOB KYC mobile app in React Native — architecture, navigation and QR-code scanning.',
+      'Developed three document-management apps with voice search, breadcrumb navigation and Jetpack Compose native bridging.',
+      'Built a custom Compose annotation viewer — draw, zoom, pan, swipe — integrated into React Native.',
+      'Integrated Google Maps API; assisted Dhanalakshmi Bank web-platform integration & debugging.',
+      'Designed responsive UI/UX in Figma with reusable components and custom animation hooks.',
+    ],
+  },
+  {
+    company: 'Open Leaves', role: 'Associate Software Engineer',
+    period: 'Jan 2022 — Oct 2022', span: 'c6',
+    points: [
+      'Built responsive web apps with React.js, Next.js, HTML, CSS and Bootstrap.',
+      'Basic backend work across Node.js, Express.js and MongoDB.',
+    ],
+  },
+  {
+    company: 'Brototype', role: 'MERN Stack Trainee',
+    period: 'Nov 2022 — Sep 2023', span: 'c6',
+    points: [
+      'Built an SSR e-commerce platform with user & admin dashboards — Figma UI/UX, deployed on AWS.',
+      'Developed a mini social app and a real-time chat app with Socket.io.',
+    ],
+  },
+]
+
+export default function Experience() {
+  const sectionRef = useRef(null)
+
+  useGSAP(() => {
+    gsap.from('.xp-tile', {
+      y: 26, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.xp-bento', start: 'top 84%', once: true },
+    })
+  }, { scope: sectionRef, dependencies: [] })
 
   return (
-    <section id="experience" className="experience">
-      <div className="container">
-        <h2>Work Experience</h2>
+    <section id="experience" className="experience section" ref={sectionRef}>
+      <div className="rail rail--wide">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Experience</span>
+            <h2 className="section-title">Where I&apos;ve <span className="accent">worked</span></h2>
+          </div>
+        </div>
 
-        <div className="timeline-exp">
-          {experiences.map((exp, index) => (
-            <div key={index} className="timeline-item-exp">
-              <div className="timeline-content-exp">
-                <span className="exp-number">0{index + 1}</span>
-                <div className="exp-body">
-                  <div className="date">{exp.period}</div>
-                  <h3>{exp.title}</h3>
-                  <h4>{exp.company}</h4>
-                  <ul>
-                    {exp.responsibilities.map((resp, idx) => (
-                      <li key={idx}>{resp}</li>
-                    ))}
-                  </ul>
-                </div>
+        <div className="xp-bento bento">
+          {ROLES.map((r) => (
+            <div className={`tile xp-tile ${r.span} ${r.wide ? 'xp-wide' : ''}`} key={r.company}>
+              <div className="xp-top">
+                <span className="xp-co">{r.company}</span>
+                {r.current && <span className="xp-now"><span className="dot-live" /> Current</span>}
               </div>
+              <div className="xp-meta">
+                <span className="xp-role">{r.role}</span>
+                <span className="xp-period">{r.period}</span>
+              </div>
+              <ul className="xp-points">
+                {r.points.map((p, i) => <li key={i}>{p}</li>)}
+              </ul>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
-};
-
-export default Experience;
+  )
+}

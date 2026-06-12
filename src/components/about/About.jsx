@@ -1,126 +1,82 @@
-import React, { useEffect, useRef } from "react";
-import "./About.css";
-import profileImage from "../../assets/Profile.png"; 
-import resume from "../../assets/Alwin_React_Developer.pdf";
+'use client'
 
-const About = () => {
-  const elementsRef = useRef([]);
+import { useRef } from 'react'
+import { useGSAP } from '@gsap/react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import './About.css'
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+gsap.registerPlugin(ScrollTrigger)
 
-    elementsRef.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
+const FOCUS = ['Scalable architecture', 'Performance', 'Cross-platform', 'State management', 'REST APIs', 'SOLID']
+const WHAT = [
+  'Enterprise web apps in React.js',
+  'Cross-platform mobile in React Native',
+  'UI/UX from Figma to production',
+  'API integration & state management',
+]
 
-    return () => observer.disconnect();
-  }, []);
+export default function About() {
+  const sectionRef = useRef(null)
+
+  useGSAP(() => {
+    gsap.from('.about-bento > *', {
+      y: 26, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.07,
+      scrollTrigger: { trigger: '.about-bento', start: 'top 82%', once: true },
+    })
+  }, { scope: sectionRef, dependencies: [] })
 
   return (
-    <section id="about" className="about-section">
-      <div className="container">
-        
-        <div className="about-grid">
-          
-          {/* Image Column */}
-          <div 
-            className="about-image-col fade-up"
-            ref={(el) => (elementsRef.current[0] = el)}
-          >
-            <div className="image-wrapper">
-              <img 
-                src={profileImage} 
-                alt="Alwin Godly Mathew" 
-                className="profile-img"
-              />
+    <section id="about" className="about section" ref={sectionRef}>
+      <div className="rail rail--wide">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">About</span>
+            <h2 className="section-title">The person <span className="accent">behind the code</span></h2>
+          </div>
+        </div>
+
+        <div className="about-bento bento">
+          <div className="tile ab-bio c8 r2">
+            <span className="tile-label">A bit about me</span>
+            <p className="ab-lead">
+              I&apos;m a frontend-focused engineer with <strong>3+ years</strong> turning complex
+              requirements into fast, reliable interfaces.
+            </p>
+            <p className="ab-text">
+              At Ospyn Technologies I&apos;ve led frontend delivery for national banks and a state
+              genomic-data centre — KYC/CKYC, document management and more — with React, React Native,
+              Redux Toolkit and Tailwind, backed by working Node, Express and MongoDB range.
+            </p>
+          </div>
+
+          <div className="tile tile--dark ab-now c4">
+            <span className="tile-label">Currently</span>
+            <div className="ab-now-role">Software Engineer</div>
+            <div className="ab-now-co">Ospyn Technologies</div>
+            <div className="ab-now-when">Oct 2023 → Now</div>
+          </div>
+
+          <div className="tile ab-focus c4">
+            <span className="tile-label">Focus</span>
+            <div className="ab-chips">
+              {FOCUS.map((f) => <span className="chip" key={f}>{f}</span>)}
             </div>
           </div>
 
-          {/* Content Column */}
-          <div className="about-content-col">
-            
-            <div 
-              className="content-block fade-up"
-              ref={(el) => (elementsRef.current[1] = el)}
-            >
-              <span className="section-label">About</span>
-              <h2 className="section-title">Alwin Godly Mathew</h2>
-              <p className="lead-text">
-                Frontend Developer with 3+ years of experience in React.js and
-                React Native, focused on scalable architecture, performance,
-                and cross-platform product delivery.
-              </p>
-            </div>
+          <div className="tile ab-what c8">
+            <span className="tile-label">What I do</span>
+            <ul className="ab-list">
+              {WHAT.map((w) => <li key={w}>{w}</li>)}
+            </ul>
+          </div>
 
-            <div 
-              className="content-block fade-up"
-              ref={(el) => (elementsRef.current[2] = el)}
-            >
-              <p className="body-text">
-                At Ospyn Technologies, I led frontend delivery for Kerala
-                Genomic Data Center and built enterprise-grade KYC/CKYC and
-                document management applications using React.js, Redux Toolkit,
-                Tailwind CSS, and React Native.
-              </p>
-              <p className="body-text">
-                I specialize in state management, REST API integration,
-                responsive UI/UX, and SOLID-based engineering practices, with
-                working backend knowledge in Node.js, Express.js, and MongoDB.
-              </p>
-            </div>
-
-            <div 
-              className="info-rows fade-up"
-              ref={(el) => (elementsRef.current[3] = el)}
-            >
-              <div className="info-row">
-                <span className="info-label">Role</span>
-                <span className="info-value">Software Engineer (Frontend)</span>
-              </div>
-              <div className="info-row">
-                <span className="info-label">Email</span>
-                <a href="mailto:alwingodlymathew@gmail.com" className="info-value info-link">
-                  alwingodlymathew@gmail.com
-                </a>
-              </div>
-              <div className="info-row">
-                <span className="info-label">Phone</span>
-                <a href="tel:+919746564270" className="info-value info-link">
-                  +91 9746564270
-                </a>
-              </div>
-              <div className="info-row">
-                <span className="info-label">Location</span>
-                <span className="info-value">Trivandrum, Kerala</span>
-              </div>
-            </div>
-
-            <div 
-              className="about-actions fade-up"
-              ref={(el) => (elementsRef.current[4] = el)}
-            >
-              <a href={resume} download className="btn btn-primary">
-                Download Resume
-              </a>
-              <a href="#contact" className="btn btn-secondary">
-                Get in Touch
-              </a>
-            </div>
-
+          <div className="tile tile--soft ab-approach c4">
+            <span className="tile-label">Approach</span>
+            <p className="ab-approach-text">Clean, <span className="accent">SOLID-driven</span> code. Ship fast — keep it maintainable.</p>
           </div>
         </div>
       </div>
     </section>
-  );
-};
-
-export default About;
+  )
+}

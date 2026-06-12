@@ -1,0 +1,65 @@
+/* ════════════════ WORK — case cards + swipe carousels ════════════════ */
+.work-note { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); max-width: 36ch; line-height: 1.55; }
+
+/* group label */
+.wk-group { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.wk-group span { color: var(--ink-3); font-weight: 500; }
+.wk-group--mt { margin-top: clamp(40px, 5vw, 64px); }
+
+/* ───── Client case card ───── */
+.wk-card { justify-content: flex-start; gap: 0; padding: clamp(24px, 2.6vw, 36px); min-height: 250px; }
+.wk-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+.wk-scale { display: inline-flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); }
+.wk-scale-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+.wk-num { font-family: var(--mono); font-size: 13px; color: var(--ink-3); }
+.wk-card-title { font-size: clamp(1.35rem, 2vw, 1.75rem); font-weight: 600; letter-spacing: -0.03em; color: var(--ink); line-height: 1.12; margin-bottom: 10px; }
+.wk-card-role { display: block; font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); margin-bottom: 18px; }
+.wk-card-year { color: var(--ink-3); }
+.wk-card-desc { color: var(--ink-2); font-size: 14.5px; line-height: 1.65; margin-bottom: 22px; }
+.wk-card-tech { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+
+/* ───── Personal card — swipe carousel ───── */
+.wk-shot-card { padding: 0; gap: 0; overflow: hidden; }
+.wk-carousel {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--tile-2); border-bottom: 1px solid var(--line);
+  touch-action: pan-y; cursor: grab; user-select: none;
+}
+.wk-carousel:active { cursor: grabbing; }
+.wk-track { display: flex; height: 100%; transition: transform 0.55s var(--ease); will-change: transform; }
+.wk-slide { flex: 0 0 100%; height: 100%; }
+.wk-slide img { width: 100%; height: 100%; object-fit: contain; object-position: center; pointer-events: none; }
+
+.wk-wip { position: absolute; top: 12px; left: 12px; z-index: 3; padding: 5px 11px; border-radius: 999px; background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.wk-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--line);
+  color: var(--ink); font-size: 20px; line-height: 1; cursor: pointer;
+  backdrop-filter: blur(6px); opacity: 0; transition: opacity var(--t-base), background var(--t-base);
+}
+.wk-carousel:hover .wk-nav { opacity: 1; }
+.wk-nav:hover { background: var(--tile); }
+.wk-nav--prev { left: 10px; } .wk-nav--next { right: 10px; }
+
+.wk-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 6px; }
+.wk-dot { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; background: color-mix(in srgb, var(--ink) 28%, transparent); transition: width var(--t-base) var(--ease), background var(--t-base); }
+.wk-dot.is-active { width: 18px; border-radius: 999px; background: var(--accent); }
+
+.wk-shot-body { display: flex; flex-direction: column; gap: 0; padding: clamp(20px, 2vw, 28px); }
+.wk-shot-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.wk-shot-title { font-size: 1.2rem; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); }
+.wk-shot-stack { font-family: var(--mono); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.wk-shot-desc { color: var(--ink-2); font-size: 14px; line-height: 1.6; margin: 8px 0 16px; }
+
+/* CTA */
+.wk-cta { display: flex; flex-direction: row; align-items: center; justify-content: space-between; min-height: 76px; background: var(--tile-2); margin-top: 16px; }
+.wk-cta-text { display: inline-flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 600; color: var(--ink); }
+.wk-cta-arrow { color: var(--ink-3); transition: transform var(--t-base) var(--ease), color var(--t-base); }
+.wk-cta:hover .wk-cta-arrow { transform: translate(3px, -3px); color: var(--accent); }
+
+@media (max-width: 600px) {
+  .wk-card { min-height: 0; }
+  .wk-nav { display: none; }  /* touch uses swipe + dots */
+}

@@ -1,195 +1,26 @@
-/* ============================================
-   EXPERIENCE SECTION — Editorial Redesign
-   ============================================ */
+/* ════════════════ EXPERIENCE — bento ════════════════ */
+.xp-tile { gap: 18px; min-height: 0; }
 
-.experience {
-  background-color: var(--_colors---light-white);
-  padding: var(--section-padding-lg) 0;
-  position: relative;
+.xp-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.xp-co { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; color: var(--ink); }
+.xp-now {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--green); padding: 5px 11px; border-radius: 999px;
+  background: color-mix(in srgb, var(--green) 12%, var(--tile)); border: 1px solid color-mix(in srgb, var(--green) 26%, transparent);
 }
 
-.experience .container {
-  max-width: 900px;
-}
+.xp-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.xp-role { font-size: 14px; font-weight: 600; color: var(--ink); }
+.xp-period { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
 
-/* ─── Section Header ─── */
-.experience h2 {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 6vw, 4.5rem);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1.0;
-  color: var(--claude-text-dark);
-  margin-bottom: 80px;
-}
+.xp-points { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.xp-points li { position: relative; padding-left: 22px; font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+.xp-points li::before { content: ''; position: absolute; left: 0; top: 8px; width: 9px; height: 2px; border-radius: 2px; background: var(--accent); }
 
-/* ─── Timeline ─── */
-.timeline-exp {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+/* wide (current) tile — 2-column bullets */
+.xp-wide .xp-points { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 36px; }
 
-/* ─── Timeline Items ─── */
-.timeline-item-exp {
-  position: relative;
-  padding: 40px 0;
-  border-top: 1px solid var(--claude-border);
-}
-
-.timeline-item-exp:last-child {
-  border-bottom: 1px solid var(--claude-border);
-}
-
-/* ─── Content Card ─── */
-.timeline-content-exp {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-/* Number */
-.exp-number {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  font-weight: 400;
-  color: var(--claude-border);
-  line-height: 1;
-  padding-top: 4px;
-}
-
-/* Body wrapper */
-.exp-body {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Date badge */
-.date {
-  display: inline-flex;
-  align-items: center;
-  background-color: var(--_colors---yellow);
-  color: var(--claude-text-dark);
-  padding: 4px 14px;
-  border-radius: 999px;
-  font-family: var(--font-family);
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: var(--space-4);
-  letter-spacing: 0.05em;
-}
-
-/* Role title */
-.exp-body h3 {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  color: var(--claude-text-dark);
-  line-height: 1.1;
-  margin-bottom: var(--space-2);
-}
-
-/* Company */
-.exp-body h4 {
-  font-family: var(--font-family);
-  font-size: var(--text-base);
-  font-weight: 600;
-  color: var(--claude-primary);
-  text-transform: none;
-  letter-spacing: 0;
-  margin-bottom: var(--space-5);
-}
-
-/* Responsibilities */
-.exp-body ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.exp-body ul li {
-  position: relative;
-  padding-left: 16px;
-  color: var(--claude-text-medium);
-  line-height: 1.65;
-  font-size: var(--text-base);
-}
-
-.exp-body ul li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--claude-primary);
-  flex-shrink: 0;
-}
-
-/* ─── Animations ─── */
-.timeline-item-exp {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: expFadeIn 0.5s ease forwards;
-}
-
-.timeline-item-exp:nth-child(1) { animation-delay: 0.1s; }
-.timeline-item-exp:nth-child(2) { animation-delay: 0.2s; }
-.timeline-item-exp:nth-child(3) { animation-delay: 0.3s; }
-
-@keyframes expFadeIn {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ─── Responsive ─── */
-@media (max-width: 768px) {
-  .experience { padding: 80px 0; }
-
-  .experience h2 { margin-bottom: 56px; }
-
-  .timeline-content-exp {
-    grid-template-columns: 56px 1fr;
-    gap: 24px;
-  }
-
-  .exp-number {
-    font-size: 2rem;
-  }
-
-  .timeline-item-exp { padding: 32px 0; }
-
-  .exp-body h3 { font-size: 1.25rem; }
-  .exp-body h4 { font-size: var(--text-sm); }
-  .exp-body ul li { font-size: var(--text-sm); }
-}
-
-@media (max-width: 480px) {
-  .experience { padding: 64px 0; }
-
-  .timeline-content-exp {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .exp-number {
-    font-size: 1.5rem;
-  }
-
-  .timeline-item-exp { padding: 24px 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .timeline-item-exp {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
+@media (max-width: 760px) {
+  .xp-wide .xp-points { grid-template-columns: 1fr; }
 }

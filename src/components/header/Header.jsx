@@ -1,81 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import './Header.css';
+'use client'
 
-const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+import { useState, useEffect } from 'react'
+import './Header.css'
+
+const LINKS = [
+  { id: 'work', label: 'Work' },
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'education', label: 'Education' },
+  { id: 'contact', label: 'Contact' },
+]
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [active, setActive] = useState('home')
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40)
+
+      const total = document.documentElement.scrollHeight - window.innerHeight
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0)
+
+      const ids = ['home', ...LINKS.map((l) => l.id)]
+      let current = 'home'
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && window.scrollY + 160 >= el.offsetTop) current = id
       }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.classList.add('menu-open');
-    } else {
-      document.body.classList.remove('menu-open');
+      setActive(current)
     }
-  }, [menuOpen]);
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen)
+  }, [menuOpen])
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const close = () => setMenuOpen(false)
 
   return (
     <header className={scrolled ? 'header scrolled' : 'header'}>
-      <div className="container">
-        <div className="navbar">
-          <div className="logo">
-            <a href="#home" onClick={closeMenu}>
-              Alwin<span> Godly Mathew</span>
-            </a>
-          </div>
+      <div className="scroll-progress" style={{ width: `${progress}%` }} aria-hidden="true" />
+      <div className="rail rail--wide nav">
+        <a href="#home" className="logo" onClick={close}>
+          <span className="logo-mark">AG</span>
+          <span className="logo-text">Alwin <span className="logo-accent">Godly</span> Mathew</span>
+        </a>
 
-          <div 
-            className="menu-toggle" 
-            onClick={toggleMenu}
-            role="button"
-            aria-label="Toggle navigation menu"
-            aria-expanded={menuOpen}
-          >
-            <div className={menuOpen ? "hamburger open" : "hamburger"}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
+        <button
+          className={menuOpen ? 'menu-toggle open' : 'menu-toggle'}
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+        >
+          <span /><span />
+        </button>
 
-          <nav className={menuOpen ? "nav-menu active" : "nav-menu"}>
-            <ul>
-              <li><a href="#home" onClick={closeMenu}>Home</a></li>
-              <li><a href="#about" onClick={closeMenu}>About</a></li>
-              <li><a href="#experience" onClick={closeMenu}>Experience</a></li>
-              {/* <li><a href="#projects" onClick={closeMenu}>Projects</a></li> */}
-              <li><a href="#skills" onClick={closeMenu}>Skills</a></li>
-              <li><a href="#education" onClick={closeMenu}>Education</a></li>
-              <li><a href="#contact" onClick={closeMenu}>Contact</a></li>
-            </ul>
-          </nav>
-        </div>
+        <nav className={menuOpen ? 'nav-menu active' : 'nav-menu'}>
+          <ul>
+            {LINKS.map((l) => (
+              <li key={l.id}>
+                <a href={`#${l.id}`} onClick={close} className={active === l.id ? 'nav-link active' : 'nav-link'}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a href="#contact" onClick={close} className="btn btn-primary nav-cta">Let&apos;s talk</a>
+        </nav>
       </div>
     </header>
-  );
-};
-
-export default Header;
+  )
+}
