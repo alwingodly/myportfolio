@@ -22,10 +22,11 @@ export default function Providers({ children }) {
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
 
-    // ── Parallax (skipped under reduced-motion) ──
+    // ── Parallax (skipped under reduced-motion and on mobile/touch for perf) ──
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const lite = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches
     let ctx
-    if (!reduce) {
+    if (!reduce && !lite) {
       ctx = gsap.context(() => {
         // Any element tagged data-parallax="<speed>" drifts as it crosses the viewport.
         gsap.utils.toArray('[data-parallax]').forEach((el) => {
@@ -53,33 +54,12 @@ export default function Providers({ children }) {
       })
     }
 
-    // ── Liquid-glass glare: a soft light follows the cursor across the hovered tile ──
-    let glareRaf = 0
-    let lastEvt = null
-    const updateGlare = () => {
-      glareRaf = 0
-      const e = lastEvt
-      const tile = e && e.target.closest && e.target.closest('.tile')
-      if (!tile) return
-      const r = tile.getBoundingClientRect()
-      tile.style.setProperty('--gx', `${((e.clientX - r.left) / r.width) * 100}%`)
-      tile.style.setProperty('--gy', `${((e.clientY - r.top) / r.height) * 100}%`)
-    }
-    const onPointerMove = (e) => {
-      lastEvt = e
-      if (!glareRaf) glareRaf = requestAnimationFrame(updateGlare)
-    }
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
-    if (finePointer) window.addEventListener('pointermove', onPointerMove, { passive: true })
-
     ScrollTrigger.refresh()
     const onLoad = () => ScrollTrigger.refresh()
     window.addEventListener('load', onLoad)
 
     return () => {
       window.removeEventListener('load', onLoad)
-      if (finePointer) window.removeEventListener('pointermove', onPointerMove)
-      if (glareRaf) cancelAnimationFrame(glareRaf)
       ctx?.revert()
       gsap.ticker.remove(raf)
       lenis.destroy()

@@ -1,14 +1,13 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
-import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaArrowDown, FaExpand, FaCompress } from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaEnvelope, FaArrowRight, FaArrowDown } from 'react-icons/fa'
 import './Hero.css'
 
 export default function Hero() {
   const heroRef = useRef(null)
-  const [windowOpen, setWindowOpen] = useState(false)
 
   useGSAP(() => {
     gsap.from('.hero-bento > *', {
@@ -17,18 +16,12 @@ export default function Hero() {
   }, { scope: heroRef, dependencies: [] })
 
   return (
-    <section id="home" className={`hero ${windowOpen ? 'window-open' : ''}`} ref={heroRef}>
+    <section id="home" className="hero" ref={heroRef}>
       <div className="rail rail--wide">
         <div className="hero-bento">
 
-          {/* Intro — focal tile / observation window */}
+          {/* Intro — focal tile */}
           <div className="tile h-intro">
-            {/* blast-door shutters — slide apart to reveal the black hole */}
-            <div className="h-shutters" aria-hidden="true">
-              <span className="h-shutter h-shutter--l" />
-              <span className="h-shutter h-shutter--r" />
-            </div>
-
             <div className="h-intro-top">
               <span className="h-avail"><span className="dot-live" /> Available for work</span>
               <span className="tile-label">React &amp; React Native Dev</span>
@@ -41,19 +34,6 @@ export default function Hero() {
             <div className="h-cta">
               <a href="#work" className="btn btn-primary">View work <FaArrowRight /></a>
               <a href="#contact" className="btn btn-ghost">Get in touch</a>
-
-              {/* slide-to-open observation window */}
-              <button
-                type="button"
-                className={`h-opener ${windowOpen ? 'is-open' : ''}`}
-                onClick={() => setWindowOpen((v) => !v)}
-                aria-pressed={windowOpen}
-                aria-label={windowOpen ? 'Close observation window' : 'Open observation window'}
-              >
-                <span className="h-opener-fill" />
-                <span className="h-opener-label">{windowOpen ? 'Slide to seal' : 'Slide to open'}</span>
-                <span className="h-opener-knob">{windowOpen ? <FaCompress /> : <FaExpand />}</span>
-              </button>
             </div>
           </div>
 

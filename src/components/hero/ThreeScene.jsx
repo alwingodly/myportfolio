@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useMemo, useEffect } from 'react';
+import { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -34,7 +34,7 @@ const fragmentShader = /* glsl */ `
   const float RS       = 1.0;     // event horizon
   const float DISK_IN  = 3.0;     // inner edge (≈ ISCO)
   const float DISK_OUT = 12.0;    // outer edge
-  const int   STEPS    = 160;
+  const int   STEPS    = 100;
 
   float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
   float noise(vec2 p){
@@ -199,7 +199,17 @@ function BlackHole() {
   );
 }
 
-export default function ThreeScene() {
+export default function ThreeScene({ active = true }) {
+  const [reduced, setReduced] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const onMq = () => setReduced(mq.matches);
+    mq.addEventListener?.('change', onMq);
+    return () => mq.removeEventListener?.('change', onMq);
+  }, []);
+
   useEffect(() => {
     const onMove = (e) => {
       pointer.x = (e.clientX / window.innerWidth)  * 2 - 1;
@@ -209,9 +219,13 @@ export default function ThreeScene() {
     return () => window.removeEventListener('pointermove', onMove);
   }, []);
 
+  // Animate only while visible; render a single static frame under reduced-motion.
+  const frameloop = reduced ? 'demand' : active ? 'always' : 'never';
+
   return (
     <Canvas
-      dpr={[1, 1.25]}
+      frameloop={frameloop}
+      dpr={1}
       gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
     >
