@@ -17,22 +17,9 @@
   grid-auto-rows: minmax(128px, auto);
   gap: var(--gap);
 }
-
-/* ── Liquid glass — translucent, blurred, light-catching cards ── */
-.hero .tile:not(.tile--dark) {
-  background:
-    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02) 46%),
-    rgba(255,255,255,0.045);
-  backdrop-filter: blur(22px) saturate(165%);
-  -webkit-backdrop-filter: blur(22px) saturate(165%);
-  border: 1px solid rgba(255,255,255,0.14);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.28),
-    inset 0 0 0 1px rgba(255,255,255,0.04),
-    inset 0 -10px 30px -18px rgba(255,255,255,0.10),
-    0 22px 50px -26px rgba(0,0,0,0.75);
-}
-.hero .tile-link:not(.tile--dark):hover { border-color: rgba(255,255,255,0.24); }
+/* let tiles shrink to their track so content wraps instead of overflowing */
+.hero-bento > * { min-width: 0; }
+.h-name, .h-tag { overflow-wrap: anywhere; }
 
 /* spans — row1: intro · row2: stats + links */
 .h-intro { grid-column: span 12; grid-row: span 1; }
@@ -50,6 +37,84 @@
 .h-dot { color: var(--accent); }
 .h-tag { color: var(--ink-2); font-size: clamp(14px, 1.15vw, 16.5px); line-height: 1.6; max-width: 50ch; }
 .h-cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+
+/* ── Observation-window toggle ── */
+/* ── Slide-to-open control (replaces the button) ── */
+.h-opener {
+  position: relative; z-index: 2;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 216px; height: 46px; padding: 0; border-radius: 999px;
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2);
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  cursor: pointer; overflow: hidden; white-space: nowrap;
+  transition: border-color var(--t-base), color var(--t-base);
+}
+.h-opener:hover { border-color: rgba(255,255,255,0.32); }
+.h-opener.is-open { color: #fff; border-color: var(--accent); }
+.h-opener-fill {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(90deg, rgba(255,90,31,0.85), rgba(255,90,31,0.18));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.55s var(--ease);
+}
+.h-opener.is-open .h-opener-fill { transform: scaleX(1); }
+.h-opener-label { position: relative; z-index: 1; padding-left: 30px; }
+.h-opener-knob {
+  position: absolute; z-index: 2; top: 4px; left: 4px; width: 38px; height: 38px;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent); color: #fff; font-size: 13px;
+  box-shadow: 0 4px 12px -2px rgba(255,90,31,0.6);
+  transition: transform 0.55s var(--ease);
+}
+.h-opener.is-open .h-opener-knob { transform: translateX(170px); }
+
+/* ── Observation window — frosted shutters that part to reveal the black hole ── */
+/* the intro becomes a clear frame; the shutters carry the frost */
+.hero .h-intro { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.hero .h-intro > .h-intro-top,
+.hero .h-intro > .h-name,
+.hero .h-intro > .h-tag,
+.hero .h-intro > .h-cta { position: relative; z-index: 2; }
+
+.h-shutters { position: absolute; inset: 0; z-index: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+.h-shutter {
+  position: absolute; top: 0; bottom: 0; width: 54%;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02) 48%),
+    rgba(255,255,255,0.05);
+  -webkit-backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
+          backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
+  transition: transform 0.95s var(--ease);
+  will-change: transform;
+}
+/* feathered inner edges so the two halves blend seamlessly — no center line */
+.h-shutter--l { left: 0;  -webkit-mask: linear-gradient(to right, #000 82%, transparent); mask: linear-gradient(to right, #000 82%, transparent); }
+.h-shutter--r { right: 0; -webkit-mask: linear-gradient(to left,  #000 82%, transparent); mask: linear-gradient(to left,  #000 82%, transparent); }
+.hero.window-open .h-shutter--l { transform: translateX(-104%); }
+.hero.window-open .h-shutter--r { transform: translateX(104%); }
+
+/* ── Window OPEN — stats/links glass clears too ── */
+.hero .h-stats, .hero .h-links {
+  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease),
+              border-color var(--t-base), background var(--t-base) var(--ease),
+              backdrop-filter var(--t-base) var(--ease), -webkit-backdrop-filter var(--t-base) var(--ease);
+}
+.hero.window-open .h-stats,
+.hero.window-open .h-links {
+  background:
+    radial-gradient(130% 120% at 50% -12%, rgba(255,255,255,0.05), transparent 56%),
+    rgba(255,255,255,0.012);
+  -webkit-backdrop-filter: blur(0px) saturate(120%);
+          backdrop-filter: blur(0px) saturate(120%);
+}
+/* keep text readable over the live black hole */
+.hero.window-open .h-name,
+.hero.window-open .h-stat-num,
+.hero.window-open .h-avail,
+.hero.window-open .tile-label { text-shadow: 0 2px 22px rgba(0,0,0,0.9), 0 1px 5px rgba(0,0,0,0.8); }
+.hero.window-open .h-tag { opacity: 0.6; text-shadow: 0 1px 12px rgba(0,0,0,0.9); }
+.hero.window-open .h-links-row a { background: rgba(255,255,255,0.05); }
 
 /* ── Stats ── */
 .h-stats { flex-direction: row; align-items: center; justify-content: space-between; gap: clamp(16px, 3vw, 40px); }
@@ -79,6 +144,8 @@
 @media (max-width: 600px) {
   .hero-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
   .h-intro { grid-column: span 2; }
-  .h-stats { grid-column: span 2; }
-  .h-links { grid-column: span 2; flex-direction: row; align-items: center; }
+  .h-name { font-size: clamp(2rem, 11vw, 3rem); max-width: 100%; }
+  .h-stats { grid-column: span 2; flex-wrap: wrap; gap: 14px 20px; }
+  .h-stat { flex: 1 0 auto; min-width: 68px; }
+  .h-links { grid-column: span 2; flex-direction: row; align-items: center; flex-wrap: wrap; gap: 14px; }
 }

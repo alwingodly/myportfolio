@@ -67,7 +67,13 @@ html {
 body {
   font-family: var(--font);
   font-size: 16px; line-height: 1.6; color: var(--ink-2);
-  background: var(--bg); overflow-x: hidden;
+  background:
+    radial-gradient(90% 40% at 50% 8%, rgba(255,90,31,0.05), transparent 55%),
+    radial-gradient(70% 50% at 100% 45%, rgba(90,130,255,0.04), transparent 60%),
+    radial-gradient(70% 50% at 0% 78%, rgba(31,184,119,0.035), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  overflow-x: hidden;
 }
 h1, h2, h3, h4 { font-family: var(--font); font-weight: 600; letter-spacing: -0.03em; line-height: 1.02; color: var(--ink); }
 p { margin: 0; }
@@ -113,6 +119,8 @@ main > section { position: relative; z-index: 1; }
   grid-auto-rows: minmax(96px, auto);
   gap: var(--gap);
 }
+/* tiles must be allowed to shrink to their track, else content overflows on mobile */
+.bento > * { min-width: 0; }
 /* column spans */
 .c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}
 .c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}
@@ -120,25 +128,77 @@ main > section { position: relative; z-index: 1; }
 /* row spans */
 .r2{grid-row:span 2}.r3{grid-row:span 3}.r4{grid-row:span 4}
 
-/* ── Tile ── */
+/* ── Tile — iOS liquid glass ── */
 .tile {
   position: relative;
-  background: var(--tile);
-  border: 1px solid var(--line);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02) 48%),
+    rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: var(--r-tile);
   padding: clamp(18px, 2vw, 26px);
-  box-shadow: var(--sh);
+  isolation: isolate;
+  -webkit-backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
+  backdrop-filter: blur(22px) saturate(185%) brightness(1.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 0 0 1px rgba(255,255,255,0.03),
+    inset 0 -12px 30px -20px rgba(255,255,255,0.08),
+    0 18px 44px -24px rgba(0,0,0,0.7);
   overflow: hidden;
   display: flex; flex-direction: column;
   transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease), border-color var(--t-base);
 }
 .tile-link { cursor: pointer; }
-.tile-link:hover { transform: translateY(-4px); box-shadow: var(--sh-lift); border-color: var(--line-2); }
-.tile--dark { background: var(--char); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+.tile-link:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.24);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.32),
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 30px 60px -26px rgba(0,0,0,0.82);
+}
+
+/* Liquid-glass glare — a soft light that follows the cursor across the surface */
+.tile::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(240px circle at var(--gx, 50%) var(--gy, -10%),
+              rgba(255,255,255,0.18), rgba(255,255,255,0.05) 38%, transparent 62%);
+  opacity: 0; transition: opacity var(--t-base) var(--ease);
+  will-change: opacity;
+}
+.tile:hover::before { opacity: 1; }
+
+/* Liquid-glass specular rim — bright light-catching edge, brightest top-left */
+.tile::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
+  padding: 1px;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.6), rgba(255,255,255,0.1) 28%, transparent 52%, rgba(255,255,255,0.16) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.tile--accent::after { background: linear-gradient(135deg, rgba(255,255,255,0.7), transparent 50%, rgba(255,255,255,0.2)); }
+
+/* Smoked-glass feature tile */
+.tile--dark {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0) 52%),
+    rgba(8,7,5,0.55);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.72);
+}
 .tile--dark h1, .tile--dark h2, .tile--dark h3 { color: #fff; }
-.tile--accent { background: var(--accent); border-color: transparent; color: rgba(255,255,255,0.92); }
+/* Frosted-tangerine feature tile */
+.tile--accent {
+  background:
+    linear-gradient(135deg, rgba(255,142,92,0.96), rgba(255,90,31,0.9));
+  border-color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.94);
+}
 .tile--accent h1, .tile--accent h2, .tile--accent h3 { color: #fff; }
-.tile--soft { background: var(--tile-2); }
+.tile--soft { background: var(--tile-2); backdrop-filter: none; -webkit-backdrop-filter: none; }
 .tile-label { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
 .tile--dark .tile-label, .tile--accent .tile-label { color: rgba(255,255,255,0.55); }
 

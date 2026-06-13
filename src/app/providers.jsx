@@ -53,12 +53,33 @@ export default function Providers({ children }) {
       })
     }
 
+    // ── Liquid-glass glare: a soft light follows the cursor across the hovered tile ──
+    let glareRaf = 0
+    let lastEvt = null
+    const updateGlare = () => {
+      glareRaf = 0
+      const e = lastEvt
+      const tile = e && e.target.closest && e.target.closest('.tile')
+      if (!tile) return
+      const r = tile.getBoundingClientRect()
+      tile.style.setProperty('--gx', `${((e.clientX - r.left) / r.width) * 100}%`)
+      tile.style.setProperty('--gy', `${((e.clientY - r.top) / r.height) * 100}%`)
+    }
+    const onPointerMove = (e) => {
+      lastEvt = e
+      if (!glareRaf) glareRaf = requestAnimationFrame(updateGlare)
+    }
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (finePointer) window.addEventListener('pointermove', onPointerMove, { passive: true })
+
     ScrollTrigger.refresh()
     const onLoad = () => ScrollTrigger.refresh()
     window.addEventListener('load', onLoad)
 
     return () => {
       window.removeEventListener('load', onLoad)
+      if (finePointer) window.removeEventListener('pointermove', onPointerMove)
+      if (glareRaf) cancelAnimationFrame(glareRaf)
       ctx?.revert()
       gsap.ticker.remove(raf)
       lenis.destroy()
